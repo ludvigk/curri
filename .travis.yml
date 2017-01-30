@@ -1,0 +1,12 @@
+language: python
+python:
+  - "3.6"
+install:
+  - pip install -r requirements.txt
+script: 
+  - pytest
+  - pycodestyle ./
+notifications:
+  slack: pu-gruppe77:ZOPIPb7DAh1uSC2O5mONh7YA
+after_sucses:
+  - codeclimate-test-reporter
