@@ -8,8 +8,9 @@
     <title>Bootstrap 101 Template</title>
 
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/login.css" rel="stylesheet">
+    {% load staticfiles %}
+    <link href="{% static 'login/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'login/css/login.css' %}" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -23,7 +24,7 @@
                 <div class="row">
       <div class="col-md-6 col-md-offset-3">
         <div style="display:table-cell; vertical-align:middle; text-align:center">
-          <img src="img/Curri_logo.png" width="30%">
+          <img src="{% static 'login/img/Curri_logo.png' %}" width="30%">
         </div>
         <div class="panel panel-login">
           <div class="panel-heading">
@@ -100,7 +101,7 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/login.js"></script>
+    <script src="{% static 'login/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'login/js/login.js' %}"></script>
   </body>
 </html>
