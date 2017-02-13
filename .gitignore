@@ -299,5 +299,7 @@ xcuserdata/
 *.moved-aside
 *.xccheckout
 *.xcscmblueprint
-
 # End of https://www.gitignore.io/api/windows,osx,linux,python,pycharm,vim,django,emacs,xcode
+
+
+mysite_uwsgi.ini
