@@ -5,12 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Bootstrap 101 Template</title>
+    <title>Login - Curri</title>
 
     <!-- Bootstrap -->
     {% load staticfiles %}
-    <link href="{% static 'login/css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'login/css/login.css' %}" rel="stylesheet">
+    <link href="{% static 'accounts/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'accounts/css/login.css' %}" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -24,7 +24,7 @@
                 <div class="row">
       <div class="col-md-6 col-md-offset-3">
         <div style="display:table-cell; vertical-align:middle; text-align:center">
-          <img src="{% static 'login/img/Curri_logo.png' %}" width="30%">
+          <img src="{% static 'accounts/img/Curri_logo.png' %}" width="30%">
         </div>
         <div class="panel panel-login">
           <div class="panel-heading">
@@ -41,7 +41,7 @@
           <div class="panel-body">
             <div class="row">
               <div class="col-lg-12">
-                <form id="login-form" action="/login/" method="post" role="form" style="display: block;">
+                <form id="login-form" action="/accounts/login/" method="post" role="form" style="display: block;">
                   {% csrf_token %}
                   <div class="form-group">
                     <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
@@ -70,7 +70,8 @@
                     </div>
                   </div>
                 </form>
-                <form id="register-form" action="http://phpoll.com/register/process" method="post" role="form" style="display: none;">
+                <form id="register-form" action="/accounts/register/" method="post" role="form" style="display: none;">
+                  {% csrf_token %}
                   <div class="form-group">
                     <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
                   </div>
@@ -102,7 +103,7 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{% static 'login/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'login/js/login.js' %}"></script>
+    <script src="{% static 'accounts/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'accounts/js/login.js' %}"></script>
   </body>
 </html>

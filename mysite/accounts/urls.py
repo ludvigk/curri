@@ -20,8 +20,8 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
-    url(r'^auth/$', views.index, name='index')
+    url(r'^login/$', views.login, name='index'),
+    url(r'^register/$', views.register, name='index'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
