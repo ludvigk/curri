@@ -44,10 +44,10 @@
                 <form id="login-form" action="/accounts/login/" method="post" role="form" style="display: block;">
                   {% csrf_token %}
                   <div class="form-group">
-                    <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
+                    <input type="text" name="loginusername" id="loginusername" tabindex="1" class="form-control" placeholder="Username" value="">
                   </div>
                   <div class="form-group">
-                    <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+                    <input type="password" name="loginpassword" id="loginpassword" tabindex="2" class="form-control" placeholder="Password">
                   </div>
                   <div class="form-group text-center">
                     <input type="checkbox" tabindex="3" class="" name="remember" id="remember">
@@ -105,5 +105,19 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{% static 'accounts/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'accounts/js/login.js' %}"></script>
+    <script>
+      function CheckId() {
+      $.get('/accounts/checkusername/', {username: $('#username').val()},
+        function(data){
+          var myElement = document.getElementById('username');
+          if(data == "True"){
+            myElement.style.backgroundColor = "LightGreen";
+          } else {
+            myElement.style.backgroundColor = "LightCoral";
+          }
+      });
+      }
+      $("#username").change( function() {CheckId()});
+    </script>  
   </body>
 </html>
