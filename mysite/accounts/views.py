@@ -7,6 +7,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.models import User
 from . import user_util
 
+
 def login(request):
     username = request.POST.get('loginusername', '')
     password = request.POST.get('loginpassword', '')
@@ -16,14 +17,16 @@ def login(request):
         return redirect('/')
     return render(request, 'accounts/login.html')
 
-def register(request): 
-    username         = request.POST.get('username', '')
-    email            = request.POST.get('email', '')
-    password         = request.POST.get('password', '')
+
+def register(request):
+    username = request.POST.get('username', '')
+    email = request.POST.get('email', '')
+    password = request.POST.get('password', '')
     confirm_password = request.POST.get('confirm-password', '')
     user = User.objects.create_user(username, email, password)
     user.save()
     return redirect('/accounts/login/')
+
 
 def checkusername(request):
     if request.method == "GET":

@@ -6,6 +6,7 @@ def username_present(username):
         return True
     return False
 
+
 def email_present(email):
     if User.objects.filter(email=email).exists():
         return True
