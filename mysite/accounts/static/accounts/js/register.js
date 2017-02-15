@@ -10,4 +10,4 @@ function register() {
   
   });
 }
-$('#register-submit').onClick(function (){register()});
+$('#register-submit').click(function (){register()});
