@@ -6,6 +6,8 @@ from django.contrib.auth import login as auth_login
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
 from . import user_util
+from django.core import validators
+from django.http import HttpResponseRedirect
 
 
 def login(request):
@@ -19,10 +21,13 @@ def login(request):
 
 
 def register(request):
-    username = request.POST.get('username', '')
-    email = request.POST.get('email', '')
-    password = request.POST.get('password', '')
-    confirm_password = request.POST.get('confirm-password', '')
+    p = request.POST
+    username = p.get('username', '')
+    email = p.get('email', '')
+    password = p.get('password', '')
+    confirm_password = p.get('confirm-password', '')
+    if user_util.username_valid(username) or user_util.email_present(email):
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     user = User.objects.create_user(username, email, password)
     user.save()
     return redirect('/accounts/login/')
@@ -33,7 +38,14 @@ def checkusername(request):
         p = request.GET.copy()
         if 'username' in p.keys():
             name = p['username']
-            if user_util.username_present(name):
-                return HttpResponse(False)
-            else:
-                return HttpResponse(True)
+            return  HttpResponse(user_util.username_valid(name))
+    return HttpResponse('Invalid request')
+
+
+def checkemail(request):
+    if request.method == "GET":
+        p = request.GET.copy()
+        if 'email' in p.keys():
+            email = p['email']
+            return HttpResponse(user_util.email_valid(email))
+    return HttpResponse('Invalid request')

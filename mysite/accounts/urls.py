@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^login/$', views.login),
     url(r'^register/$', views.register),
     url(r'^checkusername/$', views.checkusername),
+    url(r'^checkemail/$', views.checkemail),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
