@@ -10,4 +10,4 @@ function register() {
   
   });
 }
-$('#username').change(function (){CheckUsername()});
+$('#register-submit').onClick(function (){register()});
