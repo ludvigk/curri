@@ -37,10 +37,10 @@ def register(request):
         user.is_active = False
         try:
             send_registration_confirmation(user)
-        except:
+        except Exception:
             user.delete()
             return HttpResponse(False)
-    except:
+    except Exception:
         return HttpResponse(False)
     return HttpResponse(True)
 
@@ -56,7 +56,7 @@ def checkusername(request):
         p = request.GET.copy()
         if 'username' in p.keys():
             name = p['username']
-            return  HttpResponse(user_util.username_valid(name))
+            return HttpResponse(user_util.username_valid(name))
     return HttpResponse('Invalid request')
 
 

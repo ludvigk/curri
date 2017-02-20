@@ -13,16 +13,18 @@ def email_present(email):
         return True
     return False
 
+
 def username_valid(username):
     if username_present(username) or username == '':
         return False
     return True
+
 
 def email_valid(email):
     if email_present(email):
         return False
     try:
         validators.validate_email(email)
-    except:
+    except ValidationError:
         return(False)
     return True
