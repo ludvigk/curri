@@ -25,6 +25,6 @@ def email_valid(email):
         return False
     try:
         validators.validate_email(email)
-    except ValidationError:
+    except Exception:
         return(False)
     return True

@@ -12,6 +12,7 @@ import random
 from django.conf import settings
 from django.contrib import messages
 from django.core.mail import send_mail
+from django.contrib.auth.tokens import default_token_generator
 
 
 def login(request):
@@ -46,9 +47,14 @@ def register(request):
 
 
 def send_registration_confirmation(user):
-        title = "Curri email confirmation"
-        content = "localhost/" + "/" + user.username
-        send_mail(title, content, settings.EMAIL_HOST_USER, [user.email], fail_silently=False)
+    token = default_token_generator.make_token(user)
+    title = "Curri email confirmation"
+    content = "localhost/" + token
+    send_mail(title, content, settings.EMAIL_HOST_USER, [user.email], fail_silently=False)
+
+
+def activationview(request):
+    pass
 
 
 def checkusername(request):
