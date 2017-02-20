@@ -9,6 +9,12 @@ https://docs.djangoproject.com/en/1.10/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
+from . import email_settings
+EMAIL_USE_TLS = email_settings.EMAIL_USE_TLS
+EMAIL_HOST = email_settings.EMAIL_HOST
+EMAIL_HOST_USER = email_settings.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = email_settings.EMAIL_HOST_PASSWORD
+EMAIL_PORT = email_settings.EMAIL_PORT
 
 import os
 

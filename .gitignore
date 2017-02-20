@@ -303,3 +303,4 @@ xcuserdata/
 
 
 mysite_uwsgi.ini
+email_settings.py

@@ -8,6 +8,10 @@ from django.contrib.auth.models import User
 from . import user_util
 from django.core import validators
 from django.http import HttpResponseRedirect
+import random
+from django.conf import settings
+from django.contrib import messages
+from django.core.mail import send_mail
 
 
 def login(request):
@@ -21,16 +25,30 @@ def login(request):
 
 
 def register(request):
-    p = request.POST
-    username = p.get('username', '')
-    email = p.get('email', '')
-    password = p.get('password', '')
-    confirm_password = p.get('confirm-password', '')
-    if user_util.username_valid(username) or user_util.email_present(email):
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    user = User.objects.create_user(username, email, password)
-    user.save()
-    return redirect('/accounts/login/')
+    try:
+        p = request.GET.copy()
+        username = p.get('username', '')
+        email = p.get('email', '')
+        password = p.get('password', '')
+        assert(user_util.email_valid(email))
+        assert(user_util.username_valid(username))
+        user = User.objects.create_user(username, email, password)
+        user.save()
+        user.is_active = False
+        try:
+            send_registration_confirmation(user)
+        except:
+            user.delete()
+            return HttpResponse(False)
+    except:
+        return HttpResponse(False)
+    return HttpResponse(True)
+
+
+def send_registration_confirmation(user):
+        title = "Curri email confirmation"
+        content = "localhost/" + "/" + user.username
+        send_mail(title, content, settings.EMAIL_HOST_USER, [user.email], fail_silently=False)
 
 
 def checkusername(request):
