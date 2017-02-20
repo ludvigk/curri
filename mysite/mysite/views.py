@@ -7,4 +7,4 @@ from django.contrib.auth.models import User
 
 @login_required(login_url='/accounts/login/')
 def index(request):
-    return HttpResponse("Hello, " + request.user.username + "! This is project Curri.")
+    return response('mysite/index.html')
