@@ -8,7 +8,7 @@ function register() {
 		alert("Fyll ut alle felter");
 	}
 	else if(/^[a-zA-Z0-9]*$/.test(name) == false) {
-	    alert('Your search string contains illegal characters');
+	    alert('Your search string contains illegal characters');	
 	}
 	else if (name.length < 6 || name.length > 20) {
 		alert("Brukernavnet må være på mellom 6 og 20 tegn")
