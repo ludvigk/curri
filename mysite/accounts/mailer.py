@@ -39,7 +39,8 @@ class Mailer:
         message_template = get_template(template)
         for recipient in to_emails:
             message_content = message_template.render(context)
-            message = EmailMessage(subject, message_content, to=[recipient], from_email=self.from_email)
+            message = EmailMessage(subject, message_content, to=[recipient],
+                                   from_email=self.from_email)
             message.content_subtype = 'html'
             messages.append(message)
 

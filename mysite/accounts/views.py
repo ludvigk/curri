@@ -15,7 +15,6 @@ from django.template import Context, loader
 import random
 
 
-
 def login(request):
     username = request.POST.get('loginusername', '')
     password = request.POST.get('loginpassword', '')
@@ -52,16 +51,16 @@ def send_registration_confirmation(user):
     token = default_token_generator.make_token(user)
     uid = urlsafe_base64_encode(force_bytes(user.pk))
     title = "Curri email confirmation"
-    content = 'localhost/'+ 'accounts/validate/' + uid.decode('UTF-8') + '/' + token
+    content = 'localhost/' + 'accounts/validate/' + uid.decode('UTF-8') + '/' + token
     mail = mailer.Mailer()
-    mail.send_messages(subject=title, template='accounts/verification_email.html', context={'link': content}, to_emails=[user.email])
-    #send_mail(title, content, settings.EMAIL_HOST_USER, [user.email], fail_silently=False)
+    mail.send_messages(subject=title, template='accounts/verification_email.html',
+                       context={'link': content}, to_emails=[user.email])
 
 
 def activationview(request, uidb64, token):
     if uidb64 is not None and token is not None:
         from django.utils.http import urlsafe_base64_decode
-        uid = urlsafe_base64_decode(bytes(uidb64, encoding = 'UTF-8'))
+        uid = urlsafe_base64_decode(bytes(uidb64, encoding='UTF-8'))
         try:
             from django.contrib.auth import get_user_model
             from django.contrib.auth.tokens import default_token_generator
@@ -75,9 +74,6 @@ def activationview(request, uidb64, token):
             return HttpResponse(e)
     return HttpResponse(False)
 
-
-def recoverview(request):
-    pass
 
 def checkusername(request):
     if request.method == "GET":
