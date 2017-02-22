@@ -79,7 +79,6 @@ def activationview(request, uidb64, token):
 def recoverview(request):
     pass
 
-
 def checkusername(request):
     if request.method == "GET":
         p = request.GET.copy()
