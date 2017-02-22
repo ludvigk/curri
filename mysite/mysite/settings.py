@@ -18,6 +18,7 @@ EMAIL_HOST = email_settings.EMAIL_HOST
 EMAIL_HOST_USER = email_settings.EMAIL_HOST_USER
 EMAIL_HOST_PASSWORD = email_settings.EMAIL_HOST_PASSWORD
 EMAIL_PORT = email_settings.EMAIL_PORT
+EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -45,6 +46,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts',
+    'djcelery',
+    'djcelery_email',
+    'mysite',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +135,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672/'

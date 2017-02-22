@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^checkemail/$', views.checkemail),
     url(r'^validate/(?P<uidb64>[0-9A-Za-z_\-]+)/' +
         '(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.activationview),
+    url(r'^recover/$', views.recoverview)
 ]
 
 urlpatterns += staticfiles_urlpatterns()
