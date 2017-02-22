@@ -70,21 +70,32 @@
                   {% csrf_token %}
 
                   <div class="collapse" id="collapse-username">
-                    <p style="text-align: right; color: #f08080;">
-                    </p>
+                    <p id="username-error" style="text-align: right; color: #f08080;"> </p>
                   </div>
                   <div class="form-group">
                     <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
                   </div>
 
-
+                  <div class="collapse" id="collapse-email">
+                    <p id="email-error" style="text-align: right; color: #f08080;"> </p>
+                  </div>
 
                   <div class="form-group">
                     <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="">
                   </div>
+
+                  <div class="collapse" id="collapse-password">
+                    <p id="password-error" style="text-align: right; color: #f08080;"> </p>
+                  </div>
+
                   <div class="form-group">
                     <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
                   </div>
+
+                  <div class="collapse" id="collapse-cpassword">
+                    <p id="cpassword-error" style="text-align: right; color: #f08080;"> </p>
+                  </div>
+
                   <div class="form-group">
                     <input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password">
                   </div>
