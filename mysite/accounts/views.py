@@ -1,18 +1,19 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.template import Context, loader
-from django.contrib.auth import authenticate, login
-from django.contrib.auth import login as auth_login
-from django.shortcuts import redirect
-from django.contrib.auth.models import User
 from . import user_util
-from django.core import validators
-from django.http import HttpResponseRedirect
-import random
 from django.conf import settings
 from django.contrib import messages
-from django.core.mail import send_mail
+from django.contrib.auth import authenticate, login
+from django.contrib.auth import login as auth_login
+from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
+from django.core import validators
+from django.core.mail import send_mail
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
+from django.shortcuts import render
+from django.template import Context, loader
+import random
+
 
 
 def login(request):
@@ -31,29 +32,51 @@ def register(request):
         username = p.get('username', '')
         email = p.get('email', '')
         password = p.get('password', '')
-        assert(user_util.email_valid(email))
-        assert(user_util.username_valid(username))
         user = User.objects.create_user(username, email, password)
-        user.save()
         user.is_active = False
+        user.save()
         try:
             send_registration_confirmation(user)
-        except Exception:
+        except Exception as e:
             user.delete()
-            return HttpResponse(False)
-    except Exception:
-        return HttpResponse(False)
+            return HttpResponse(e)
+    except Exception as e:
+        return HttpResponse(e)
     return HttpResponse(True)
 
 
 def send_registration_confirmation(user):
+    from django.utils.http import urlsafe_base64_encode
+    from django.utils.encoding import force_bytes
+    from . import mailer
     token = default_token_generator.make_token(user)
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
     title = "Curri email confirmation"
-    content = "localhost/" + token
-    send_mail(title, content, settings.EMAIL_HOST_USER, [user.email], fail_silently=False)
+    content = 'localhost/'+ 'accounts/validate/' + uid.decode('UTF-8') + '/' + token
+    mail = mailer.Mailer()
+    mail.send_messages(subject=title, template='accounts/verification_email.html', context={'link': content}, to_emails=[user.email])
+    #send_mail(title, content, settings.EMAIL_HOST_USER, [user.email], fail_silently=False)
 
 
-def activationview(request):
+def activationview(request, uidb64, token):
+    if uidb64 is not None and token is not None:
+        from django.utils.http import urlsafe_base64_decode
+        uid = urlsafe_base64_decode(bytes(uidb64, encoding = 'UTF-8'))
+        try:
+            from django.contrib.auth import get_user_model
+            from django.contrib.auth.tokens import default_token_generator
+            user_model = get_user_model()
+            user = user_model.objects.get(pk=uid.decode('UTF-8'))
+            if default_token_generator.check_token(user, token) and not user.is_active:
+                user.is_active = True
+                user.save()
+                return HttpResponse(True)
+        except Exception as e:
+            return HttpResponse(e)
+    return HttpResponse(False)
+
+
+def recoverview(request):
     pass
 
 
