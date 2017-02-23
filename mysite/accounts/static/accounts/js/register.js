@@ -10,11 +10,20 @@ function register() {
 
 	if (name == '' || email == '' || password == '' || cpassword == '') {
 
-	    document.getElementById("username-error").innerHTML = "All fields must be filled out"
-	    $('#collapse-username').collapse('show')
+	    document.getElementById("register-error").innerHTML = "All fields must be filled out"
+	    $('#collapse-register').collapse('show')
 		should_register = false
 	}
-	else if(/^[a-zA-Z0-9]*$/.test(name) == false) {
+
+	else{
+	    $('#collapse-register').collapse('hide')
+	    document.getElementById("register-error").innerHTML = ""
+
+
+	}
+
+
+	if(/^[a-zA-Z0-9]*$/.test(name) == false) {
 		// TOGGLE FUNKER! Må bare endre indre verdi til riktig type error.
 	    //alert('Your search string contains illegal characters');
 	    //$('#username-error').innerHTML = "Error"

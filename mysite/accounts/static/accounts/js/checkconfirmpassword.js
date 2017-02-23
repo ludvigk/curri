@@ -14,6 +14,9 @@ function CheckPassword() {
         document.getElementById("confirm-password").style.backgroundColor = "#f08080";
         document.getElementById("password-error").innerHTML = "Password must be between 8-20 characters"
 	    $('#collapse-password').collapse('show')
+        $('#collapse-cpassword').collapse('hide')
+        document.getElementById("confirm-password").style.backgroundColor = "#FFFFFF";
+
     }
     
     else if (password1 != password2){
