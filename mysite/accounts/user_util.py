@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.core import validators
-
+import re
 
 def username_present(username):
     if User.objects.filter(username=username).exists():
@@ -16,6 +16,10 @@ def email_present(email):
 
 def username_valid(username):
     if username_present(username) or username == '':
+        return False
+    if len(username) < 4 or len(username) > 20:
+        return False
+    if not re.match("[a-zA-Z0-9]*", username):
         return False
     return True
 

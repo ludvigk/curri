@@ -1,11 +1,10 @@
 function CheckUsername() {
 
   var myElement = document.getElementById('username');
-
   if (myElement.value == '') {
     myElement.style.backgroundColor = "White";
   }
-  else if (name.length < 6 || name.length > 20) {
+  else if (myElement.value.length < 4 || myElement.value.length > 20) {
     myElement.style.backgroundColor = "LightCoral";
   }
   else if (/^[a-zA-Z0-9]*$/.test(myElement.value) == false){
@@ -13,8 +12,7 @@ function CheckUsername() {
   }
   else {
     $.get('/accounts/checkusername/', {username: $('#username').val()},
-    function(data){ 
-
+    function(data){
       if(data == "True"){
         myElement.style.backgroundColor = "LightGreen";
       } 

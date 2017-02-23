@@ -31,6 +31,8 @@ def register(request):
         username = p.get('username', '')
         email = p.get('email', '')
         password = p.get('password', '')
+        assert(user_util.username_valid(username))
+        assert(user_util.email_valid(email))
         user = User.objects.create_user(username, email, password)
         user.is_active = False
         user.save()
