@@ -19,42 +19,30 @@ function register() {
 	    //alert('Your search string contains illegal characters');
 	    //$('#username-error').innerHTML = "Error"
 	    //console.log($('#username-error').innerHTML)
-	    document.getElementById("username-error").innerHTML = "Username contains illegal characters"
-	    $('#collapse-username').collapse('show')
 	    should_register = false
 	}
-	else if (name.length < 6 || name.length > 20) {
-	    document.getElementById("username-error").innerHTML = "Username must be between 6-20 characters"
-	    $('#collapse-username').collapse('show')
+	else if (name.length < 4 || name.length > 20) {
 		should_register = false
 	}
 
 	else {
-	    $('#collapse-username').collapse('hide')
 	    document.getElementById("username-error").innerHTML = ""
 
 	}
 
-	if ((password.length) < 8 || name.length > 32) {
-	    document.getElementById("password-error").innerHTML = "Password must be between 8-32 characters"
-	    $('#collapse-password').collapse('show')
+	if ((password.length) < 8 || name.length > 20) {
 		should_register = false
 	}
 
 	else{
-	    $('#collapse-password').collapse('hide')
 	    document.getElementById("password-error").innerHTML = ""
 
 	}
 	if (!(password).match(cpassword)) {
-	    document.getElementById("cpassword-error").innerHTML = "Passwords doesn't match"
-	    
-	    $('#collapse-cpassword').collapse('show')
 		should_register = false
 	}
 
 	else{
-	    $('#collapse-cpassword').collapse('hide')
 	    document.getElementById("cpassword-error").innerHTML = ""
 
 	}
