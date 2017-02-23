@@ -5,7 +5,7 @@ function CheckUsername() {
   if (myElement.value == '') {
     myElement.style.backgroundColor = "White";
   }
-  else if (name.length < 6 || name.length > 20) {
+  else if (myElement.length < 6 || myElement.length > 20) {
     myElement.style.backgroundColor = "LightCoral";
   }
   else if (/^[a-zA-Z0-9]*$/.test(myElement.value) == false){

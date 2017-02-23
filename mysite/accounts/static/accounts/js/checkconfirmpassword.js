@@ -2,9 +2,9 @@ function CheckPassword() {
     var password1 = document.getElementById("password").value;
     var password2 = document.getElementById("confirm-password").value;
     
-    if (password1.length < 6 || password1.length > 20) {
+    if (password1.length < 8 || password1.length > 20) {
         document.getElementById("password").style.backgroundColor = "#f08080";
-        document.getElementById("password").style.backgroundColor = "#f08080";
+        document.getElementById("confirm-password").style.backgroundColor = "#f08080";
 
     }
     
