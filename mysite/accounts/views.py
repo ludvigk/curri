@@ -55,8 +55,9 @@ def send_registration_confirmation(user):
     title = "Curri email verification"
     mail = mailer.Mailer()
     mail.send_messages(subject=title, template='accounts/verification_email.html',
-            context={'protocol':'http','domain': 'localhost','token': token, 'uid': uid},
-            to_emails=[user.email])
+                       context={'protocol': 'http', 'domain': 'localhost', 'token': token,
+                                'uid': uid},
+                       to_emails=[user.email])
 
 
 def activationview(request, uidb64, token):
@@ -94,5 +95,3 @@ def checkemail(request):
             email = p['email']
             return HttpResponse(user_util.email_valid(email))
     return HttpResponse('Invalid request')
-
-
