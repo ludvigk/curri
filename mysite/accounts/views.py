@@ -40,9 +40,9 @@ def register(request):
             send_registration_confirmation(user)
         except Exception as e:
             user.delete()
-            return HttpResponse(e)
+            return HttpResponse(False)
     except Exception as e:
-        return HttpResponse(e)
+        return HttpResponse(False)
     return HttpResponse(True)
 
 
@@ -52,11 +52,11 @@ def send_registration_confirmation(user):
     from . import mailer
     token = default_token_generator.make_token(user)
     uid = urlsafe_base64_encode(force_bytes(user.pk))
-    title = "Curri email confirmation"
-    content = 'localhost/' + 'accounts/validate/' + uid.decode('UTF-8') + '/' + token
+    title = "Curri email verification"
     mail = mailer.Mailer()
     mail.send_messages(subject=title, template='accounts/verification_email.html',
-                       context={'link': content}, to_emails=[user.email])
+            context={'protocol':'http','domain': 'localhost','token': token, 'uid': uid},
+            to_emails=[user.email])
 
 
 def activationview(request, uidb64, token):
@@ -70,11 +70,12 @@ def activationview(request, uidb64, token):
             user = user_model.objects.get(pk=uid.decode('UTF-8'))
             if default_token_generator.check_token(user, token) and not user.is_active:
                 user.is_active = True
+                auth_login(request, user)
                 user.save()
-                return HttpResponse(True)
+                return render(request, 'accounts/verification_successful.html')
         except Exception as e:
-            return HttpResponse(e)
-    return HttpResponse(False)
+            return render(request, 'accounts/verification_failed.html')
+    return render(request, 'accounts/verification_failed.html')
 
 
 def checkusername(request):
@@ -93,3 +94,5 @@ def checkemail(request):
             email = p['email']
             return HttpResponse(user_util.email_valid(email))
     return HttpResponse('Invalid request')
+
+

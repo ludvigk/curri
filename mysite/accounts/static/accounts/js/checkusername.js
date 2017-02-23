@@ -3,6 +3,8 @@ function CheckUsername() {
   var myElement = document.getElementById('username');
   if (myElement.value == '') {
     myElement.style.backgroundColor = "White";
+    $('#collapse-username').collapse('hide')
+    document.getElementById("username-error").innerHTML = ""
   }
     
   else if (myElement.value.length < 4 || myElement.value.length > 20) {

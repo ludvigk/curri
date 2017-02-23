@@ -66,7 +66,6 @@ function register() {
       		window.location.replace("/");
 
     		}
-                console.log(data);
    		});
 	}
 }
