@@ -29,6 +29,8 @@ function CheckPassword() {
     else {
         document.getElementById("password").style.backgroundColor = "#90EE90";
         document.getElementById("confirm-password").style.backgroundColor = "#90EE90";
+        
+        $('#collapse-password').collapse('hide')
         $('#collapse-cpassword').collapse('hide')
 
     }    
