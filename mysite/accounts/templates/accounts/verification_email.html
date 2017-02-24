@@ -1,0 +1,12 @@
+<pre>
+To verify your email for your {{ user.get_username | safe }} Curri Account,
+click the link below:
+
+{{ protocol | safe }}://{{ domain | safe }}{% url 'verify_email' uidb64=uid token=token %}
+
+If clicking the link above doesn't work, please copy and paste the URL in a new browser
+window instead.
+
+Sincerely,
+The Curri Team
+</pre>
