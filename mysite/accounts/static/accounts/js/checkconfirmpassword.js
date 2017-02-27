@@ -3,9 +3,19 @@ function CheckPassword() {
     var password2 = document.getElementById("confirm-password").value;
     
     
+
+    if (password2=''){
+        document.getElementById("confirm-password").style.backgroundColor = "#FFFFFF";
+        $('#collapse-cpassword').collapse('hide')
+        document.getElementById("cpassword-error").innerHTML = ""
+
+    }
     
-    if ((password1=='')||(password2==''))  {        document.getElementById("password").style.backgroundColor = "#FFFFFF";
-    document.getElementById("confirm-password").style.backgroundColor = "#FFFFFF";
+    if (password1=='')  {        
+        document.getElementById("password").style.backgroundColor = "#FFFFFF";
+        document.getElementById("confirm-password").style.backgroundColor = "#FFFFFF";
+        $('#collapse-cpassword').collapse('hide')
+        document.getElementById("password-error").innerHTML = ""
 
     }
     
