@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'djcelery',
     'djcelery_email',
     'mysite',
+    'home',
 ]
 
 MIDDLEWARE = [
