@@ -4,7 +4,7 @@ function CheckPassword() {
     
     
 
-    if (password2=''){
+    if (password2==''){
         document.getElementById("confirm-password").style.backgroundColor = "#FFFFFF";
         $('#collapse-cpassword').collapse('hide')
         document.getElementById("cpassword-error").innerHTML = ""
