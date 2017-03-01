@@ -4,6 +4,7 @@ from django.utils import timezone
 
 class Subject(models.Model):
     title = models.CharField(max_length=200)
+    subjectID = models.CharField(max_length=6, unique=True, null=True)
     subjectCode = models.CharField(max_length=10)
     created_date = models.DateTimeField(default=timezone.now)
 
@@ -15,7 +16,7 @@ class Subject(models.Model):
 
 
 class SubjectUser(models.Model):
-    user = models.ForeignKey('auth.User')
+    user = models.ForeignKey('Profile')
     subject = models.ForeignKey('Subject')
     permissions = models.CharField(max_length=20)
 
