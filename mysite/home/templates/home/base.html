@@ -36,7 +36,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+        <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
         <li><a href="#">Link</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
@@ -54,7 +54,7 @@
       <form class="navbar-form navbar-left">
       </form>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">+ Add Subject</a></li>
+        <li><a href="#" data-toggle="modal" data-target="#createModal">+ Create Subject</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -75,9 +75,28 @@
         <span class="text-success" style="font-family: Bariol; color: #3399CC "><h1 style="display: inline;"><b> Curri</b></h1></span>
         <h1 style="font-family: Bariol; display: inline;"><b>!</b></h1>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat aasdasd asdadsasd dasdas.</p>
-        <p><a class="btn btn btn-success btn-lg" href="#" role="button" style="align:center;width:440px;">+ Add subject</a></p>
+        <p><a class="btn btn btn-success btn-lg col-sx-6 col-offset-3" href="#" role="button">+ Add subject</a></p>
       </div>
     </div>
+    <div id="createModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the modal.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+  </div>
+</div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
