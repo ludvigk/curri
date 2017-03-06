@@ -73,9 +73,3 @@ def edit_lecture(request):
 @login_required(login_url='/accounts/login/')
 def remove_lecture(request):
     return HttpResponse('')
-
-
-@login_required(login_url='/accounts/login/')
-def signout(request):
-    logout(request)
-    return redirect('login')

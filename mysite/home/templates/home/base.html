@@ -61,7 +61,7 @@
             <li><a href="#"></a></li>
             <li><a href="#" id="change_password">Change Password</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="#">Sign Out</a></li>
+            <li><a href={% url 'login' %} id="logout">Sign Out</a></li>
           </ul>
         </li>
       </ul>
@@ -124,5 +124,6 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="{% static 'home/js/create_subject.js' %}"></script>
+    <script src="{% static 'home/js/logout.js' %}"></script>
   </body>
 </html>
