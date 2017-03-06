@@ -21,7 +21,9 @@ from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
-        url("$^", views.home, name="home"),
+        url(r'^$', views.home, name="home"),
+        url(r'^add_subject/$', views.add_subject, name="add_subject"),
+        url(r'^create_subject/$', views.create_subject, name="create_subject"),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

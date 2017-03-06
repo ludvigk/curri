@@ -15,15 +15,15 @@ class Subject(models.Model):
 
 
 class SubjectUser(models.Model):
-    user = models.ForeignKey('auth.User')
+    user = models.ForeignKey('Profile')
     subject = models.ForeignKey('Subject')
     permissions = models.CharField(max_length=20)
 
 
 class Tag(models.Model):
     creator = models.ForeignKey('auth.User')
+    subject = models.ForeignKey('Subject', null=True)
     title = models.CharField(max_length=20)
-    subject = models.ForeignKey('Subject')
 
 
 class Lecture(models.Model):
