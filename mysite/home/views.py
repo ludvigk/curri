@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.contrib.auth import logout
 
 
 @login_required(login_url='/accounts/login/')
@@ -56,3 +57,9 @@ def edit_lecture(request):
 @login_required(login_url='/accounts/login/')
 def remove_lecture(request):
     return HttpResponse('')
+
+
+@login_required(login_url='/accounts/login/')
+def signout(request):
+    logout(request)
+    return redirect('login')
