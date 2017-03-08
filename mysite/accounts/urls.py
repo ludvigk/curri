@@ -33,8 +33,9 @@ urlpatterns = [
     url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         auth_views.password_reset_confirm, name='password_reset_confirm'),
     url(r'^reset/done/$', auth_views.password_reset_complete, name='password_reset_complete'),
-    url(r'^logout/$', auth_views.logout, {'next_page': '/accounts/login'}),
-    url(r'^password_change/$', auth_views.password_change),
+    url(r'^logout/$', auth_views.logout),
+    url(r'^password_change/$', auth_views.password_change, name='password_change', kwargs={'template_name': 'home/base.html't }),
+    url(r'^password_change_done/$', auth_views.logout_then_login, name='password_change_done')
 ]
 
 urlpatterns += staticfiles_urlpatterns()
