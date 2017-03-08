@@ -73,6 +73,45 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="changePassModal" tabindex="-1" role="dialog" 
+         aria-labelledby="createModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close" 
+                       data-dismiss="modal">
+                           <span aria-hidden="true">&times;</span>
+                           <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        Modal title
+                    </h4>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <form role="form">
+                    <div class="form-group">
+                        <label for="oldpass">Old password</label>
+                          <input type="password" class="form-control"
+                          id="oldpass"/>
+                      </div>
+                      <div class="form-group">
+                        <label for="newpass1">New password</label>
+                          <input type="password" class="form-control"
+                          id="newpass1"/>
+                      </div>
+                      <div class="form-group">
+                        <label for="newpass2">Repeat new password</label>
+                          <input type="password" class="form-control"
+                          id="newpass2"/>
+                      </div>
+                      <button id="change_password_btn" type="button" class="btn btn-default">Change password</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
   </div>
 </div>
 
@@ -81,5 +120,7 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="{% static 'home/js/create_subject.js' %}"></script>
+    <script src="{% static 'home/js/logout.js' %}"></script>
+    <script src="{% static 'home/js/change_password.js' %}"></script>
   </body>
 </html>
