@@ -19,56 +19,9 @@
     <![endif]-->
   </head>
   <body>
-    <nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#" style="padding-top: 0px;"> 
-          <img  alt="Brand" src="{% static 'accounts/img/Curri_logo.png' %}" height="51px"></a>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
-          </ul>
-        </li>
-      </ul>
-      <form class="navbar-form navbar-left">
-      </form>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#" data-toggle="modal" data-target="#createModal">+ Create Subject</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#"></a></li>
-            <li><a href="#">Change Username</a></li>
-            <li><a href="#">Change Password</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Sign Out</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
+    {% include 'home/navbar.html' %}
+    {% block content %}
+    {% endblock %}
     <div class = "container">
       <div class="jumbotron" style="text-align: center; background-color: white;">
           <h1 style="font-family: Bariol; display: inline;"><b>Welcome to </b></h1>
@@ -76,9 +29,12 @@
         <h1 style="font-family: Bariol; display: inline;"><b>!</b></h1>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat aasdasd asdadsasd dasdas.</p>
         <p><a class="btn btn btn-success btn-lg col-sx-6 col-offset-3" href="#" role="button">+ Add subject</a></p>
-        <ul>
+        <ul class="list-group col-md-6 col-md-offset-3">
         {% for subject in subjects %}
-        <li> subject.title </li>
+           <a href="#" class="list-group-item list-group-item-action clearfix">
+            <span class="pull-left text-right">{{ subject.title }}</span>
+            <span class="pull-right small">{{ subject.subjectCode }}</span>
+          </a>
         {% endfor %}
         </ul>
       </div>
@@ -111,7 +67,7 @@
                           <input type="text" class="form-control"
                               id="subject_code" placeholder="Enter subject code"/>
                       </div>
-                      <button id="create_subject_btn" type="button" class="btn btn-default">Submit</button>
+                      <button id="create_subject_btn" type="submit" class="btn btn-success">Submit</button>
                     </form>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from accounts.models import Subject, Profile
+from accounts.models import Subject, Profile, SubjectUser
 
 
 @login_required(login_url='/accounts/login/')
@@ -18,23 +18,25 @@ def subject(request):
 def add_subject(request):
     user = request.user
     subject = request.subject
-    profile = accounts.Profile.objects.create(user=user)
+    profile = Profile.objects.create(user=user)
     profile.save()
     return HttpResponse('')
 
 
-#@login_required(login_url='/accounts/login/')
+@login_required(login_url='/accounts/login/')
 def create_subject(request):
-    return HttpResponse('Hello')
     user = request.user
-    subject = accounts.Subject.objects.create(title=request.subject,
-                                              subjectCode=request.subject_code
+    p = request.GET.copy()
+    subject = p.get('subject', '')
+    subjectCode = p.get('subject_code', '')
+    subject = Subject.objects.create(title=subject,
+                                              subjectCode=subjectCode
                                               )
     try:
-        profile = accounts.Profile.objects.get(user=user)
+        profile = Profile.objects.get(user=user)
     except:
-        profile = accounts.Profile.objects.create(user=user)
-    profile.subjects.add(subject)
+        profile = Profile.objects.create(user=user)
+    SubjectUser.objects.create(user=profile, subject=subject, permissions='Admin')
     profile.save()
     return HttpResponse('')
 
