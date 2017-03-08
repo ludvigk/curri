@@ -23,21 +23,17 @@
     {% block content %}
     {% endblock %}
     <div class = "container">
-      <div class="jumbotron" style="text-align: center; background-color: white;">
-          <h1 style="font-family: Bariol; display: inline;"><b>Welcome to </b></h1>
-        <span class="text-success" style="font-family: Bariol; color: #3399CC "><h1 style="display: inline;"><b> Curri</b></h1></span>
-        <h1 style="font-family: Bariol; display: inline;"><b>!</b></h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat aasdasd asdadsasd dasdas.</p>
-        <p><a class="btn btn btn-success btn-lg col-sx-6 col-offset-3" href="#" role="button">+ Add subject</a></p>
-        <ul class="list-group col-md-6 col-md-offset-3">
-        {% for subject in subjects %}
-           <a href="#" class="list-group-item list-group-item-action clearfix">
-            <span class="pull-left text-right">{{ subject.title }}</span>
-            <span class="pull-right small">{{ subject.subjectCode }}</span>
-          </a>
-        {% endfor %}
-        </ul>
-      </div>
+      
+          {% for subject in subjects %}
+              {% include "home/subjects.html" %}
+              {% block subjects %}
+              {% endblock %}
+          {% empty %}
+              {% include "home/noSubjects.html" %}
+              {% block jumbotron %}
+              {% endblock %}
+          {% endfor %}
+
     </div>
     <div class="modal fade" id="createModal" tabindex="-1" role="dialog" 
          aria-labelledby="createModal" aria-hidden="true">
@@ -112,8 +108,7 @@
             </div>
         </div>
     </div>
-  </div>
-</div>
+
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
