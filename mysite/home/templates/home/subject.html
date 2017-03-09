@@ -29,7 +29,7 @@
       
       {% endif %}
       <div class="col-md-4 col-md-offset-4 text-center" style="padding-top:20px"> 
-          <a class="btn btn btn-success btn-lg col-sx-6 col-offset-3" href={% url 'delete_subject' subjectID=subject.subjectID %} role="button">+ Delete subject</a>
+          <a class="btn btn btn-danger btn-lg col-sx-6 col-offset-3" href={% url 'delete_subject' subjectID=subject.subjectID %} role="button">+ Delete subject</a>
       </div>
 </div>
 {% endblock %}
