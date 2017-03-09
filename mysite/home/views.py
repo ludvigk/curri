@@ -8,7 +8,7 @@ from accounts.models import Subject, Profile
 
 @login_required(login_url='/accounts/login/')
 def home(request):
-    return render(request, 'home/base.html', {'subjects': Subject.objects.all()})
+    return render(request, 'home/home.html', {'subjects': Subject.objects.filter(profile__user=request.user)})
 
 
 @login_required(login_url='/accounts/login/')
@@ -38,7 +38,7 @@ def create_subject(request):
         profile = Profile.objects.get(user=user)
     except:
         profile = Profile.objects.create(user=user)
-    SubjectUser.objects.create(user=profile, subject=subject, permissions='Admin')
+    SubjectUser.objects.create(user=profile, subject=subject, permissions='admin')
     profile.save()
     return HttpResponse('')
 

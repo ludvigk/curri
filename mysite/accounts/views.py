@@ -16,7 +16,6 @@ import random
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 
-
 def login(request):
     username = request.POST.get('loginusername', '')
     password = request.POST.get('loginpassword', '')
@@ -99,14 +98,12 @@ def checkemail(request):
     return HttpResponse('Invalid request')
 
 def change_password(request):
-    if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
-        if form.is_valid():
-            user = form.save()
-            update_session_auth_hash(request, user)
+    return HttpResponse(request.method)
+    if request.method == "POST":
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        update_session_auth_hash(request, form.user)
     else:
-        form = PasswordChangeForm(request.user)
-    return render(request, 'accounts/change_password.html', {
-        'form': form
-    })
+        form = PasswordChangeForm(user=request.user)
+        update_session_auth_hash(request, form.user)
+    return redirect('login')
 

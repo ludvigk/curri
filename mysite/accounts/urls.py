@@ -34,8 +34,8 @@ urlpatterns = [
         auth_views.password_reset_confirm, name='password_reset_confirm'),
     url(r'^reset/done/$', auth_views.password_reset_complete, name='password_reset_complete'),
     url(r'^logout/$', auth_views.logout),
-    url(r'^password_change/$', auth_views.password_change, name='password_change', kwargs={'template_name': 'home/base.html'}),
-    url(r'^password_change_done/$', auth_views.logout_then_login, name='password_change_done'),
+    url(r'^password_change/$', auth_views.password_change, kwargs={'template_name': 'home/change_password.html','post_change_redirect': 'login'}, name='password_change'),
+    url(r'^password_change_done/$', views.login, name='password_change_done')
 ]
 
 urlpatterns += staticfiles_urlpatterns()
