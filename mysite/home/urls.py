@@ -24,7 +24,7 @@ urlpatterns = [
         url(r'^$', views.home, name="home"),
         url(r'^add_subject/$', views.add_subject, name="add_subject"),
         url(r'^create_subject/$', views.create_subject, name="create_subject"),
-        url(r'^subject/(?P<subjectID>[0-9A-Za-z]{6})$', views.subject),
+        url(r'^subject/(?P<subjectID>[0-9A-Za-z]{6})$', views.subject, name="subject"),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

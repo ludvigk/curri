@@ -1,10 +1,15 @@
 {% extends "home/base.html" %}
 {% block content %}
 <div class = "container" >
-      <h1 class="list-group col-md-6 col-md-offset-3" style = "font-family: Bariol;">Your Subjects:</h1>
+      {% if subject %}
+      <h1 class="list-group col-md-6 col-md-offset-3" style = "font-family: Bariol;">Your 
+      Subjects:</h1>
+      {% endif %}
+          
+      
       {% for subject in subjects %}
           <ul class="list-group col-md-6 col-md-offset-3">
-              <a href="#" class="list-group-item list-group-item-action clearfix">
+              <a href="/home/subject/{{ subject.subjectID }}" class="list-group-item list-group-item-action clearfix">
                   <span class="pull-left text-right">{{ subject.title }}</span>
                   <span class="pull-right small">{{ subject.subjectuser_set.first.permissions }}</span>
                   |{{ subject.subjectID }}
@@ -16,8 +21,11 @@
           {% block subjects %}
           {% endblock %}
       {% endfor %}
+      
+      {% if subject %}
       <div class="col-md-4 col-md-offset-4 text-center" style="padding-top:20px"> 
           <a class="btn btn btn-success btn-lg col-sx-6 col-offset-3" href="#" role="button">+ Add subject</a>
     </div>
+      {% endif %}
 </div>
 {% endblock %}
