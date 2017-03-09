@@ -21,10 +21,13 @@ def subject(request, subjectID):
 
 
 @login_required(login_url='/accounts/login/')
-def add_subject(request):
+def add_subject(request, subjectID):
     user = request.user
-    subject = request.subject
-    profile = Profile.objects.create(user=user)
+    subject = Subject.objects.filter(subjectID=subjectID).first()
+    try:
+        profile = Profile.objects.get(user=user)
+    except:
+        profile = Profile.objects.create(user=user)
     profile.save()
     return HttpResponse('')
 
@@ -48,12 +51,9 @@ def create_subject(request):
 
 
 @login_required(login_url='/accounts/login/')
-def delete_subject(request):
-    user = request.user
-    subjectID = request.subjectID
+def delete_subject(request, subjectID):
     subject = Subject.objects.filter(subjectID=subjectID)
-    su = SubjectUser.objects.filter(user=user).filter(subject=subject).first()
-    if su.permissions == 'admin':
+    if is_admin(request, subjectID):
         subject.delete()
         return HttpResponse("it is deleted")
     return HttpResponse("No permissions")
@@ -80,7 +80,11 @@ def remove_tag(request):
 
 
 @login_required(login_url='/accounts/login/')
-def add_lecture(request):
+def add_lecture(request, subjectID):
+    if is_admin(request):
+        subjectID = request.POST.get('subjectID')
+        subject = Subject.objects.filter(subjectID=subjectID)
+        Lecture.objects.create_lecture(subject=subject)
     return HttpResponse('')
 
 
@@ -92,3 +96,15 @@ def edit_lecture(request):
 @login_required(login_url='/accounts/login/')
 def remove_lecture(request):
     return HttpResponse('')
+
+
+def is_admin(request, subjectID):
+    try:
+        user = request.user
+        subject = Subject.objects.filter(subjectID=subjectID)
+        su = SubjectUser.objects.filter(user=user).filter(subject=subject).first()
+        if su.permissions == "admin":
+            return True
+    except:
+        pass
+    return False
