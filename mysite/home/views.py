@@ -55,8 +55,8 @@ def delete_subject(request, subjectID):
     subject = Subject.objects.filter(subjectID=subjectID)
     if is_admin(request, subjectID):
         subject.delete()
-        return HttpResponse("it is deleted")
-    return HttpResponse("No permissions")
+        return HttpResponse("Delete successful")
+    return HttpResponse("No permission")
 
 
 @login_required(login_url='/accounts/login/')
@@ -101,10 +101,10 @@ def remove_lecture(request):
 def is_admin(request, subjectID):
     try:
         user = request.user
-        subject = Subject.objects.filter(subjectID=subjectID)
-        su = SubjectUser.objects.filter(user=user).filter(subject=subject).first()
+        subject = Subject.objects.filter(subjectID=subjectID).first()
+        su = SubjectUser.objects.filter(user=user, subject=subject).first()
         if su.permissions == "admin":
             return True
-    except:
-        pass
+    except Exception as e:
+        return False
     return False
