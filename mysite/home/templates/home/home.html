@@ -9,7 +9,7 @@
       
       {% for subject in subjects %}
           <ul class="list-group col-md-6 col-md-offset-3">
-              <a href="/home/subject/{{ subject.subjectID }}" class="list-group-item list-group-item-action clearfix">
+              <a href={% url 'subject' subjectID=subject.subjectID %} class="list-group-item list-group-item-action clearfix">
                   <span class="pull-left text-right">{{ subject.title }}</span>
                   <span class="pull-right small">{{ subject.subjectuser_set.first.permissions }}</span>
                   |{{ subject.subjectID }}
