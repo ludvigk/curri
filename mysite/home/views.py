@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from accounts.models import Subject, Profile, SubjectUser
 from django.contrib.auth import logout
-from accounts.models import Subject, Profile
 
 
 @login_required(login_url='/accounts/login/')
@@ -12,8 +11,13 @@ def home(request):
 
 
 @login_required(login_url='/accounts/login/')
-def subject(request):
-    return HttpResponse('')
+def subject(request, subjectID):
+    if not subjectID:
+        return HttpResponse('')
+    subject = Subject.objects.filter(subjectID=subjectID).first()
+    if not subject:
+        return HttpResponse('No such subject')
+    return render(request, 'home/subject.html', {'subject':subject})
 
 
 @login_required(login_url='/accounts/login/')

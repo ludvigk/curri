@@ -1,10 +1,11 @@
 from django.db import models
 from django.utils import timezone
+from django.utils.crypto import get_random_string
 
 
 class Subject(models.Model):
     title = models.CharField(max_length=200)
-    subjectID = models.CharField(max_length=6, unique=True, null=True)
+    subjectID = models.CharField(max_length=6, unique=True, null=True, default=get_random_string(length=6))
     subjectCode = models.CharField(max_length=10)
     created_date = models.DateTimeField(default=timezone.now)
 
