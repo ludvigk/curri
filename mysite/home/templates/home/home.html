@@ -1,7 +1,7 @@
 {% extends "home/base.html" %}
 {% block content %}
 <div class = "container" >
-      <h1 style = "font-family: Bariol;">Your Subjects:</h1>
+      <h1 class="list-group col-md-6 col-md-offset-3" style = "font-family: Bariol;">Your Subjects:</h1>
       {% for subject in subjects %}
           <ul class="list-group col-md-6 col-md-offset-3">
               <a href="#" class="list-group-item list-group-item-action clearfix">
@@ -16,8 +16,8 @@
           {% block subjects %}
           {% endblock %}
       {% endfor %}
-      <p>
+      <div class="col-md-4 col-md-offset-4 text-center" style="padding-top:20px"> 
           <a class="btn btn btn-success btn-lg col-sx-6 col-offset-3" href="#" role="button">+ Add subject</a>
-      </p>
+    </div>
 </div>
 {% endblock %}
