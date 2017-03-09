@@ -48,6 +48,18 @@ def create_subject(request):
 
 
 @login_required(login_url='/accounts/login/')
+def delete_subject(request):
+    user = request.user
+    subjectID = request.subjectID
+    subject = Subject.objects.filter(subjectID=subjectID)
+    su = SubjectUser.objects.filter(user=user).filter(subject=subject).first()
+    if su.permissions == 'admin':
+        subject.delete()
+        return HttpResponse("it is deleted")
+    return HttpResponse("No permissions")
+
+
+@login_required(login_url='/accounts/login/')
 def rate_lecture(request):
     return HttpResponse('')
 
