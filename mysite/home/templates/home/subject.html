@@ -1,11 +1,10 @@
 {% extends 'home/base.html' %}
 {% block content %}
-
 <div class = "container" >
       
       {% if subject.lecture_set.all %}
       <h1 class="list-group col-md-6 col-md-offset-3" style = "font-family: Bariol;">Your 
-      Subjects:</h1>
+      Lectures:</h1>
       {% endif %}
       
       {% for lecture in subject.lecture_set.all %}
@@ -24,9 +23,8 @@
       {% endfor %}
       {% if subject.lecture_set.all %}
       <div class="col-md-4 col-md-offset-4 text-center" style="padding-top:20px"> 
-          <a class="btn btn btn-success btn-lg col-sx-6 col-offset-3" href="#" role="button">+ Add lecture</a>
+        <a class="btn btn btn-success btn-lg col-sx-6 col-offset-3" href={% url 'add_lecture' subjectID=subject.subjectID %} role="button">+ Add lecture</a>
       </div>
-      
       {% endif %}
       <div class="col-md-4 col-md-offset-4 text-center" style="padding-top:20px"> 
           <a class="btn btn btn-danger btn-lg col-sx-6 col-offset-3" href={% url 'delete_subject' subjectID=subject.subjectID %} role="button">+ Delete subject</a>
