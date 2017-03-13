@@ -1,0 +1,34 @@
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" 
+     aria-labelledby="createModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" 
+                   data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Add lecture
+                </h4>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form role="form">
+                  <div class="form-group">
+                    <label for="subject">Lecture name</label>
+                      <input type="text" class="form-control"
+                      id="subject" placeholder="Enter lecture name"/>
+                  </div>
+                  <div class="form-group">
+                    <label for="subject_code">Date</label>
+                      <input type="text" class="form-control"
+                          id="subject_code" onfocus="(this.type='date')"/>
+                  </div>
+                  <button id="create_lecture_btn" type="submit" class="btn btn-success">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
