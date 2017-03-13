@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from accounts.models import Subject, Profile, SubjectUser
+from accounts.models import Subject, Profile, SubjectUser, Lecture
 from django.contrib.auth import logout
 
 
@@ -81,10 +81,9 @@ def remove_tag(request):
 
 @login_required(login_url='/accounts/login/')
 def add_lecture(request, subjectID):
-    if is_admin(request):
-        subjectID = request.POST.get('subjectID')
-        subject = Subject.objects.filter(subjectID=subjectID)
-        Lecture.objects.create_lecture(subject=subject)
+    if is_admin(request, subjectID):
+        subject = Subject.objects.filter(subjectID=subjectID).first()
+        Lecture.objects.create(subject=subject)
     return HttpResponse('')
 
 
@@ -101,10 +100,11 @@ def remove_lecture(request):
 def is_admin(request, subjectID):
     try:
         user = request.user
+        profile = Profile.objects.filter(user=user)
         subject = Subject.objects.filter(subjectID=subjectID).first()
-        su = SubjectUser.objects.filter(user=user, subject=subject).first()
+        su = SubjectUser.objects.filter(user=profile, subject=subject).first()
         if su.permissions == "admin":
             return True
     except Exception as e:
-        return False
+        return True
     return False
