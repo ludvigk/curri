@@ -1,14 +1,21 @@
 from django.test import TestCase
-from . import models
+from django.contrib.auth.models import AnonymousUser, User
+from accounts.models import Subject,Tag
 
 # Create your tests here.
 
-class TagInSubjectTestCase (TestCase)
+class TagInSubjectTestCase(TestCase):
 	def setUp(self):
+
+		#Lag en bruker og få brukeren til å opprette fag. omgosh
+
+		self.user = User.objects.create_user(username='foo', email='testest@notadomain.not', password='bar')
+
+
 		Subject.objects.create(title = "Objektorientert Programmering", subjectCode = "TDT4100", subjectID="545454")
 		Subject.objects.create(title = "Brukerkurs", subjectCode = "MA0001", subjectID = "220022")
 		Subject.objects.create(title = "Programvareutvikling", subjectCode = "TDT4140", subjectID = "123123")
-		Tag.objects.create(title = "Pekka", subject = Subject.objects.get(subjectID = "123123")  )
+		Tag.objects.create(title = "Pekka", subject = Subject.objects.get(subjectID = "123123"),creator=self.user  )
 
 	def test_tag_in_subject(self):
 		subject_title = Subject.objects.get(subjectID="123123").title
