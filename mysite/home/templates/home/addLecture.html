@@ -1,6 +1,9 @@
-<div class="modal fade" id="createModal" tabindex="-1" role="dialog" 
+<div class="modal fade" id="lectureModal" tabindex="-1" role="dialog" 
      aria-labelledby="createModal" aria-hidden="true">
     <div class="modal-dialog">
+        <style>
+            .datepicker{z-index:1151 !important;}
+        </style>
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
@@ -14,21 +17,50 @@
                 </h4>
             </div>
             <!-- Modal Body -->
+            
             <div class="modal-body">
                 <form role="form">
-                  <div class="form-group">
+                  <div class="form-group" style="padding-top:20px">
                     <label for="subject">Lecture name</label>
                       <input type="text" class="form-control"
                       id="subject" placeholder="Enter lecture name"/>
                   </div>
-                  <div class="form-group">
-                    <label for="subject_code">Date</label>
-                      <input type="text" class="form-control"
-                          id="subject_code" onfocus="(this.type='date')"/>
+
+                  <div class="form-group" style="padding-top:20px">
+                    <label for="type" class="col-md-6">Is this a excercise lecture?</label>
+                    <label class="radio-inline" style="align: right">
+                        <input type="radio" name="typeOptions" id="type" value="option1"> Yes
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="typeOptions" id="type" value="option2"> No
+                    </label>
                   </div>
-                  <button id="create_lecture_btn" type="submit" class="btn btn-success">Submit</button>
+                    
+                  <div class="form-group" style="padding-top:20px">
+                    <label for="date">Date of lecture:</label>
+                        <div class="date ">
+                            <div class="input-group input-append date col-md-4" id="datePicker">
+                                <input type="text" class="awe-calendar form-control" name="date" />
+                                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                  </div>
+                    
+                  
+                    
+                  <div class="form-group" style="padding-top:20px">
+                    <label for="repeated" class="col-md-6">Is this lecture repeated each week?  </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="repeatedOptions" id="repeated" value="option1"> Yes
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="repeatedOptions" id="repeated" value="option2"> No
+                    </label>
+                  </div>
+                  <button id="create_lecture_btn" type="submit" class="btn btn-success" style="margin-top:20px">Submit</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
