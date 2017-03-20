@@ -15,7 +15,9 @@ def home(request):
 def subject(request, subjectID):
     if not subjectID:
         return HttpResponse('')
+    profile = Profile.objects.filter(user=request.user).first()
     subject = Subject.objects.filter(subjectID=subjectID).first()
+    subject.subjectuser_set.filter(user=profile)
     if not subject:
         return HttpResponse('No such subject')
     return render(request, 'home/subject.html', {'subject':subject})
@@ -65,16 +67,16 @@ def rate_lecture(request):
     if not request.method == 'POST':
         return HttpResponse('0')
     lectureID = request.POST.get('lectureID', '')
-    score = request.nse(request.body)
-    return HttpResponse(request.POST)
+    score = request.POST.get('score','')
     lecture = Lecture.objects.get(id=int(lectureID))
     user = request.user
-    #profile = Profile.objects.filter(user=user).first()
-    #rating = lecture.rating.objects.filter(user=user)
-    #if rating:
-    #    return 0
-    #rating.rating = score
-    return HttpResponse("test")
+    profile = Profile.objects.filter(user=user).first()
+    try:
+        rating = lecture.rating.objects.filter(user=user)
+        return ('False')
+    except:
+        rating = Rating.objects.create(user=profile, rating=int(score), lecture=lecture)
+        return HttpResponse('True')
 
 
 @login_required(login_url='/accounts/login/')

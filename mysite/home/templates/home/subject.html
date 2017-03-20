@@ -12,7 +12,7 @@
               <a href=# class="list-group-item list-group-item-action clearfix">
                   <span class="pull-left text-right">{{ subject.title }}</span>
                   <span class="pull-right">
-                    <div id={{ lecture.id }} class="starrr" data-rating={{ lecture.rating.rating }}></div>
+                    <div id={{ lecture.id }} class="starrr" data-rating={{ lecture.rating_set.all.0.rating }}></div>
                   </span>
                   |{{ subject.subjectID }}
               </a>
