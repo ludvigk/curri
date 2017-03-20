@@ -82,6 +82,22 @@ class LectureTestCase(TestCase):
 		Lecture.objects.create(title="Best lecture ever!", subject=Subject.objects.get(subjectID="000003"))
 
 
+class DuplicateSubjectTestCase(TestCase):
+	def setUp(self):
+		Subject.objects.create(title = "sub1", subjectCode = '1', subjectID = "000001")
+
+	def test_create_duplicate(self):
+		try:
+			Subject.objects.create(title = "sub2", subjectCode = '2', subjectID = "000001")
+		except :
+			print("Cannot create subject with duplicate ID")
+		finally:
+			print("Dette skjer")
+
+		#for subject in Subject.objects.all():
+		#	print(subject.title)
+
+
 # --- Test for views.py ---
 #
 # What has been tested?
