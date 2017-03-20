@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from accounts.models import Subject, Profile, SubjectUser, Lecture
+from accounts.models import Subject, Profile, SubjectUser, Lecture, Rating
 from django.contrib.auth import logout
+import json
 
 
 @login_required(login_url='/accounts/login/')
@@ -61,7 +62,19 @@ def delete_subject(request, subjectID):
 
 @login_required(login_url='/accounts/login/')
 def rate_lecture(request):
-    return HttpResponse('')
+    if not request.method == 'POST':
+        return HttpResponse('0')
+    lectureID = request.POST.get('lectureID', '')
+    score = request.nse(request.body)
+    return HttpResponse(request.POST)
+    lecture = Lecture.objects.get(id=int(lectureID))
+    user = request.user
+    #profile = Profile.objects.filter(user=user).first()
+    #rating = lecture.rating.objects.filter(user=user)
+    #if rating:
+    #    return 0
+    #rating.rating = score
+    return HttpResponse("test")
 
 
 @login_required(login_url='/accounts/login/')
@@ -106,5 +119,5 @@ def is_admin(request, subjectID):
         if su.permissions == "admin":
             return True
     except Exception as e:
-        return True
+        return False
     return False

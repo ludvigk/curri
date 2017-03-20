@@ -36,8 +36,13 @@ class Lecture(models.Model):
     subject = models.ForeignKey('Subject', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     date = models.DateTimeField(default=timezone.now)
+    rating = models.ForeignKey('Rating', on_delete=models.CASCADE)
 
 class Profile(models.Model):
     user = models.OneToOneField('auth.User', on_delete=models.CASCADE)
     subjects = models.ManyToManyField('Subject', through='SubjectUser')
 
+
+class Rating(models.Model):
+    user = models.ForeignKey('Profile', on_delete=models.CASCADE)
+    rating = models.IntegerField(default=0)

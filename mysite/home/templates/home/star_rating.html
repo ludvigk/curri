@@ -1,0 +1,16 @@
+<div class="container">
+	<div class="row">
+		<h2>Working Star Ratings for Bootstrap 3 <small>Hover and click on a star</small></h2>
+	</div>
+    <div class="row lead">
+        <div id="stars" class="starrr"></div>
+        You gave a rating of <span id="count">0</span> star(s)
+	</div>
+    
+    <div class="row lead">
+        <p>Also you can give a default rating by adding attribute data-rating</p>
+        <div id="stars-existing" class="starrr" data-rating='4'></div>
+        You gave a rating of <span id="count-existing">4</span> star(s)
+    </div>
+</div>
+<script src="{% static 'home/js/star_rating.js' %}"></script>
