@@ -3,6 +3,7 @@ from django.contrib.auth.models import AnonymousUser, User
 from accounts.models import *
 from django.urls import reverse
 from django.test import Client
+from django.contrib import auth
 
 # Create your tests here.
 
@@ -117,3 +118,18 @@ class LoginPageGetTest(TestCase):
 	def test_get_login_page(self):
 		response = self.client.get(reverse('login'))
 		self.assertEqual(response.status_code,200)
+
+
+class LoginTest(TestCase):
+	def setUp(self):
+		self.credentials = {
+			'username': 'testuser',
+			'password': 'pass'
+		}
+		User.objects.create_user(self.credentials)
+
+	def test_login(self):
+		response = self.client.post('/accounts/login/', self.credentials, follow = True)
+		print(response.status_code)
+		user = auth.get_user(self.client)
+		self.assertTrue(user.is_authenticated())
