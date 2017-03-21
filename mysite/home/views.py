@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from accounts.models import Subject, Profile, SubjectUser, Lecture, Rating
@@ -24,9 +24,13 @@ def subject(request, subjectID):
 
 
 @login_required(login_url='/accounts/login/')
-def add_subject(request, subjectID):
+def add_subject(request):
     user = request.user
-    subject = Subject.objects.filter(subjectID=subjectID).first()
+    try:
+        subjectID = request.POST.get('subjectID', '')
+        subject = Subject.objects.filter(subjectID=subjectID).first()
+    except:
+        return HttpResponse('No such subject')
     try:
         profile = Profile.objects.get(user=user)
     except:
@@ -42,8 +46,8 @@ def create_subject(request):
     subject = p.get('subject', '')
     subjectCode = p.get('subject_code', '')
     subject = Subject.objects.create(title=subject,
-                                              subjectCode=subjectCode
-                                              )
+                                     subjectCode=subjectCode
+                                    )
     try:
         profile = Profile.objects.get(user=user)
     except:
@@ -58,7 +62,7 @@ def delete_subject(request, subjectID):
     subject = Subject.objects.filter(subjectID=subjectID)
     if is_admin(request, subjectID):
         subject.delete()
-        return HttpResponse("Delete successful")
+        return redirect('home')
     return HttpResponse("No permission")
 
 
@@ -99,7 +103,7 @@ def add_lecture(request, subjectID):
     if is_admin(request, subjectID):
         subject = Subject.objects.filter(subjectID=subjectID).first()
         Lecture.objects.create(subject=subject)
-    return HttpResponse('')
+    return redirect('subject', subjectID)
 
 
 @login_required(login_url='/accounts/login/')
