@@ -1,6 +1,8 @@
 from django.test import TestCase, RequestFactory
 from django.contrib.auth.models import AnonymousUser, User
 from accounts.models import *
+from django.urls import reverse
+from django.test import Client
 
 # Create your tests here.
 
@@ -89,13 +91,12 @@ class DuplicateSubjectTestCase(TestCase):
 	def test_create_duplicate(self):
 		try:
 			Subject.objects.create(title = "sub2", subjectCode = '2', subjectID = "000001")
-		except :
+		except:
 			print("Cannot create subject with duplicate ID")
 		finally:
 			print("Dette skjer")
 
-		#for subject in Subject.objects.all():
-		#	print(subject.title)
+# --- end of models.py tests ---
 
 
 # --- Test for views.py ---
@@ -104,4 +105,15 @@ class DuplicateSubjectTestCase(TestCase):
 # - 
 #
 # What has not been tested?
-# -
+# - login, register, send_registration_confirmation
+# - activationview
+# - checkusername, checkemail
+# - change_password
+
+class LoginPageGetTest(TestCase):
+	def setUp(self):
+		self.client = Client()
+
+	def test_get_login_page(self):
+		response = self.client.get(reverse('login'))
+		self.assertEqual(response.status_code,200)
