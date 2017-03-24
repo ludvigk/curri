@@ -17,10 +17,10 @@ def subject(request, subjectID):
     if not subjectID:
         return HttpResponse('')
     profile = Profile.objects.filter(user=request.user).first()
-    subject = Subject.objects.filter(subjectID=subjectID).first()
+    subject = Subject.objects.filter(subjectID=subjectID).first().prefetch_related(Prefetch("subjectuser_set", queryset=SubjectUser.objects.filter(user__user=request.user), to_attr="su"))
     if not subject:
         return HttpResponse('No such subject')
-    return render(request, 'home/subject.html', {'subject':subject, 'profile': profile})
+    return render(request, 'home/subject.html', {'subject':subject})
 
 
 @login_required(login_url='/accounts/login/')
