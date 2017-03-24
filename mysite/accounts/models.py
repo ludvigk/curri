@@ -27,7 +27,7 @@ class SubjectUser(models.Model):
 
 
 class Tag(models.Model):
-    creator = models.ForeignKey('auth.User')
+    creator = models.ForeignKey('Profile')
     subject = models.ForeignKey('Subject', null=True)
     title = models.CharField(max_length=20)
 

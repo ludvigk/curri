@@ -4,11 +4,12 @@ from django.http import HttpResponse
 from accounts.models import Subject, Profile, SubjectUser, Lecture, Rating
 from django.contrib.auth import logout
 import json
+from django.db.models import Prefetch
 
 
 @login_required(login_url='/accounts/login/')
 def home(request):
-    return render(request, 'home/home.html', {'subjects': Subject.objects.filter(profile__user=request.user)})
+    return render(request, 'home/home.html', {'subjects': Subject.objects.filter(profile__user=request.user).prefetch_related(Prefetch("subjectuser_set", queryset=SubjectUser.objects.filter(user__user=request.user), to_attr="su"))})
 
 
 @login_required(login_url='/accounts/login/')
@@ -17,10 +18,9 @@ def subject(request, subjectID):
         return HttpResponse('')
     profile = Profile.objects.filter(user=request.user).first()
     subject = Subject.objects.filter(subjectID=subjectID).first()
-    subject.subjectuser_set.filter(user=profile)
     if not subject:
         return HttpResponse('No such subject')
-    return render(request, 'home/subject.html', {'subject':subject})
+    return render(request, 'home/subject.html', {'subject':subject, 'profile': profile})
 
 
 @login_required(login_url='/accounts/login/')
@@ -35,8 +35,11 @@ def add_subject(request):
         profile = Profile.objects.get(user=user)
     except:
         profile = Profile.objects.create(user=user)
-    profile.save()
-    return HttpResponse('')
+    finally:
+        if not subject:
+            return HttpResponse('')
+        SubjectUser.objects.get_or_create(user=profile, subject=subject, permissions='student')
+        return HttpResponse('')
 
 
 @login_required(login_url='/accounts/login/')

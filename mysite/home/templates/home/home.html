@@ -11,7 +11,7 @@
           <ul class="list-group col-md-6 col-md-offset-3">
               <a href={% url 'subject' subjectID=subject.subjectID %} class="list-group-item list-group-item-action clearfix">
                   <span class="pull-left text-right">{{ subject.title }}</span>
-                  <span class="pull-right small">{{ subject.subjectuser_set.first.permissions }}</span>
+                  <span class="pull-right small">{{ subject.su.0.permissions }}</span>
                   |{{ subject.subjectID }}
               </a>
           </ul>
@@ -25,8 +25,9 @@
     <div class="container">
 	   <div class="row">
            <div id="searchsubject" class="search col-md-2 col-md-offset-4">
-               <form action="" method="post">
-                   <input type="text" id="subjectID" class="form-control input-sm" maxlength="64" placeholder="Search" />
+             <form action={% url 'add_subject' %} method="post">
+                  {% csrf_token %}
+                   <input type="text" id="subjectID" name="subjectID" class="form-control input-sm" maxlength="64" placeholder="Search" />
                    <button id="addsubject" type="submit" class="btn btn-success btn-sm">Add subject</button>
                </form>
            </div>
