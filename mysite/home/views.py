@@ -17,7 +17,7 @@ def subject(request, subjectID):
     if not subjectID:
         return HttpResponse('')
     profile = Profile.objects.filter(user=request.user).first()
-    subject = Subject.objects.filter(subjectID=subjectID).first().prefetch_related(Prefetch("subjectuser_set", queryset=SubjectUser.objects.filter(user__user=request.user), to_attr="su"))
+    subject = Subject.objects.prefetch_related(Prefetch("subjectuser_set", queryset=SubjectUser.objects.filter(user__user=request.user), to_attr="su")).filter(subjectID=subjectID).first()
     if not subject:
         return HttpResponse('No such subject')
     return render(request, 'home/subject.html', {'subject':subject})
