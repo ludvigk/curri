@@ -4,7 +4,7 @@
       
       {% if subject.lecture_set.all %}
       <h1 class="list-group col-md-6 col-md-offset-3" style = "font-family: Bariol;">Your 
-      Lectures:</h1>
+      Lectures in {{ subject.title }} ID: {{ subject.subjectID }}</h1>
       {% endif %}
       
       <div class="panel-group" id="accordion">

@@ -3,6 +3,7 @@ from django.contrib.auth.models import AnonymousUser, User
 from accounts.models import *
 from django.urls import reverse
 from django.test import Client
+from django.contrib import auth
 
 # Create your tests here.
 
@@ -117,3 +118,24 @@ class LoginPageGetTest(TestCase):
 	def test_get_login_page(self):
 		response = self.client.get(reverse('login'))
 		self.assertEqual(response.status_code,200)
+
+
+class LoginTest(TestCase):
+	def setUp(self):
+		self.client = Client()
+		User.objects.create_user(username='foo',password='bar')
+
+	def test_login(self):
+		# Måten vi MÅ få det til å funke på:
+		"""response = self.client.post(reverse('login'), {"username":"foo","password":"bar"}, follow = True)
+		print(response.status_code)
+		print(response.context['user'])
+		print(response.context['user'].is_authenticated())"""
+
+		#Denne måten funker, men den bruker IKKE VIEWET
+		login = self.client.login(username="foo",password="bar")
+		self.assertEqual(login,True)
+
+
+		#user = auth.get_user(self.client)
+		#self.assertTrue(user.is_authenticated())
