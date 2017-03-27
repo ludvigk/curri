@@ -148,15 +148,21 @@ class LoginTest(TestCase):
         # Måten vi MÅ få det til å funke på:
         
         response = self.client.post(reverse('login'),
-                    {"username":"foo","password":"bar"}, follow = True)
-        print(response.status_code)
-        print(response.context['user'])
-        print(response.context['user'].is_authenticated())
-        
+                    {"loginusername":"foo","loginpassword":"bar"}, 
+                    follow = True)
 
-        # Denne måten funker, men den bruker IKKE VIEWET
-        #login = self.client.login(username="foo", password="bar")
-        #self.assertEqual(login, True)
+        self.assertEqual(response.context['user'].is_authenticated(),True)
 
-        # user = auth.get_user(self.client)
-        # self.assertTrue(user.is_authenticated())
+class RegisterTest(TestCase):
+	def setUp(self):
+		self.client = Client()
+
+	def test_register(self):
+
+		#response = self.client.post(reverse('register'),{"username" : "foofoo123123","email" : "myemail@testdomainthisdoesntexistnope.hahanope","password" : "barbar123123"})
+
+		"""self.client.post(reverse('login'),
+            {"loginusername":"foofoo123123","loginpassword":"barbar123123"}, 
+            follow = True)
+
+        #self.assertEqual(response.context['user'].is_authenticated(),True)"""
