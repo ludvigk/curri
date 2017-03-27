@@ -26,10 +26,9 @@ class SubjectUser(models.Model):
     permissions = models.CharField(max_length=20)
 
 
-class Tag(models.Model):
-    creator = models.ForeignKey('Profile')
-    subject = models.ForeignKey('Subject', null=True)
-    title = models.CharField(max_length=20)
+class Tag(models.Model):     creator = models.ForeignKey('Profile')
+subject = models.ForeignKey('Subject', null=True)     title =
+models.CharField(max_length=20)
 
 
 class Lecture(models.Model):

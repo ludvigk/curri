@@ -35,11 +35,12 @@ class TagInSubjectTestCase(TestCase):
 
 		self.user = User.objects.create_user(username='foo', email='testest@notadomain.not', password='bar')
 
-
 		Subject.objects.create(title = "Objektorientert Programmering", subjectCode = "TDT4100", subjectID="545454")
 		Subject.objects.create(title = "Brukerkurs", subjectCode = "MA0001", subjectID = "220022")
 		Subject.objects.create(title = "Programvareutvikling", subjectCode = "TDT4140", subjectID = "123123")
-		Tag.objects.create(title = "Intro", subject = Subject.objects.get(subjectID = "123123"),creator=self.user  )
+		Profile.objects.create(user=self.user)
+		SubjectUser.objects.create(user = Profile.objects.first(),subject = Subject.objects.get(subjectID="123123"))
+		Tag.objects.create(title = "Intro", subject = Subject.objects.get(subjectID = "123123"),creator=Profile.objects.first()  )
 
 	def test_tag_in_subject(self):
 		subject_title = Subject.objects.get(subjectID="123123").title
