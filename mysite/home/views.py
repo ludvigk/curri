@@ -34,11 +34,11 @@ def add_subject(request):
     try:
         subjectID = request.POST.get('subjectID', '')
         subject = Subject.objects.filter(subjectID=subjectID).first()
-    except:
+    except Exception as e:
         return HttpResponse('No such subject')
     try:
         profile = Profile.objects.get(user=user)
-    except:
+    except Exception as e:
         profile = Profile.objects.create(user=user)
     finally:
         if not subject:
@@ -57,7 +57,7 @@ def create_subject(request):
                                      subjectCode=subjectCode)
     try:
         profile = Profile.objects.get(user=user)
-    except:
+    except Exception as e:
         profile = Profile.objects.create(user=user)
     SubjectUser.objects.create(user=profile, subject=subject, permissions='admin')
     profile.save()
@@ -85,7 +85,7 @@ def rate_lecture(request):
     try:
         rating = lecture.rating.objects.filter(user=user)
         return ('False')
-    except:
+    except Exception as e:
         rating = Rating.objects.create(user=profile, rating=int(score), lecture=lecture)
         return HttpResponse('True')
 
