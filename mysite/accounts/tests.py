@@ -38,14 +38,17 @@ class TagInSubjectTestCase(TestCase):
             title="Objektorientert Programmering",
             subjectCode="TDT4100",
             subjectID="545454")
+
         Subject.objects.create(
-        	title="Brukerkurs", 
-        	subjectCode="MA0001", 
-        	subjectID="220022")
+            title="Brukerkurs", 
+            subjectCode="MA0001", 
+            subjectID="220022")
+
         Subject.objects.create(
             title="Programvareutvikling",
             subjectCode="TDT4140",
             subjectID="123123")
+        
         Tag.objects.create(
             title="Intro",
             subject=Subject.objects.get(
