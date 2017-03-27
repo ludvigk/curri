@@ -27,7 +27,7 @@ class SubjectUser(models.Model):
 
 
 class Tag(models.Model):
-    creator = models.ForeignKey('Profile')
+    creator = models.ForeignKey('auth.User')
     subject = models.ForeignKey('Subject', null=True)
     title = models.CharField(max_length=20)
 
@@ -36,6 +36,7 @@ class Lecture(models.Model):
     subject = models.ForeignKey('Subject', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     date = models.DateTimeField(default=timezone.now)
+
 
 class Profile(models.Model):
     user = models.OneToOneField('auth.User', on_delete=models.CASCADE)

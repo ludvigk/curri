@@ -9,7 +9,10 @@ from django.db.models import Prefetch
 
 @login_required(login_url='/accounts/login/')
 def home(request):
-    return render(request, 'home/home.html', {'subjects': Subject.objects.filter(profile__user=request.user).prefetch_related(Prefetch("subjectuser_set", queryset=SubjectUser.objects.filter(user__user=request.user), to_attr="su"))})
+    queryset = SubjectUser.objects.filter(user__user=request.user)
+    pf = Prefetch("subjectuser_set", queryset=queryset, to_attr="su")
+    subjects = Subject.objects.filter(profile__user=request.user).prefetch_related(pf)
+    return render(request, 'home/home.html', {'subjects': subjects})
 
 
 @login_required(login_url='/accounts/login/')
@@ -17,10 +20,12 @@ def subject(request, subjectID):
     if not subjectID:
         return HttpResponse('')
     profile = Profile.objects.filter(user=request.user).first()
-    subject = Subject.objects.prefetch_related(Prefetch("subjectuser_set", queryset=SubjectUser.objects.filter(user__user=request.user), to_attr="su")).filter(subjectID=subjectID).first()
+    queryset = SubjectUser.objects.filter(user__user=request.user)
+    pf = Prefetch("subjectuser_set", queryset=queryset, to_attr="su")
+    subject = Subject.objects.filter(profile__user=request.user).prefetch_related(pf).first()
     if not subject:
         return HttpResponse('No such subject')
-    return render(request, 'home/subject.html', {'subject':subject})
+    return render(request, 'home/subject.html', {'subject': subject})
 
 
 @login_required(login_url='/accounts/login/')
@@ -49,8 +54,7 @@ def create_subject(request):
     subject = p.get('subject', '')
     subjectCode = p.get('subject_code', '')
     subject = Subject.objects.create(title=subject,
-                                     subjectCode=subjectCode
-                                    )
+                                     subjectCode=subjectCode)
     try:
         profile = Profile.objects.get(user=user)
     except:
@@ -74,7 +78,7 @@ def rate_lecture(request):
     if not request.method == 'POST':
         return HttpResponse('0')
     lectureID = request.POST.get('lectureID', '')
-    score = request.POST.get('score','')
+    score = request.POST.get('score', '')
     lecture = Lecture.objects.get(id=int(lectureID))
     user = request.user
     profile = Profile.objects.filter(user=user).first()
@@ -116,6 +120,11 @@ def edit_lecture(request):
 
 @login_required(login_url='/accounts/login/')
 def remove_lecture(request):
+    return HttpResponse('')
+
+
+@login_required(login_url='/accounts/login/')
+def statistics(request):
     return HttpResponse('')
 
 
