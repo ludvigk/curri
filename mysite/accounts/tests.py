@@ -49,11 +49,13 @@ class TagInSubjectTestCase(TestCase):
             subjectCode="TDT4140",
             subjectID="123123")
 
+        Profile.objects.create(user=self.user)
+
         Tag.objects.create(
             title="Intro",
             subject=Subject.objects.get(
                 subjectID="123123"),
-            creator=Profile.objects.first())
+            creator=self.user)
 
     def test_tag_in_subject(self):
         subject_title = Subject.objects.get(subjectID="123123").title
@@ -142,18 +144,19 @@ class LoginTest(TestCase):
         User.objects.create_user(username='foo', password='bar')
 
     def test_login(self):
+
         # Måten vi MÅ få det til å funke på:
-        """#
+        
         response = self.client.post(reverse('login'),
                     {"username":"foo","password":"bar"}, follow = True)
         print(response.status_code)
         print(response.context['user'])
         print(response.context['user'].is_authenticated())
-        """
+        
 
         # Denne måten funker, men den bruker IKKE VIEWET
-        login = self.client.login(username="foo", password="bar")
-        self.assertEqual(login, True)
+        #login = self.client.login(username="foo", password="bar")
+        #self.assertEqual(login, True)
 
         # user = auth.get_user(self.client)
         # self.assertTrue(user.is_authenticated())
