@@ -17,86 +17,98 @@ from django.contrib import auth
 # - ***DONE***
 
 
-
 class SubjectTestCase(TestCase):
-	def setUp(self):
-		Subject.objects.create(title = "sub1", subjectCode = '1', subjectID = "000001")
-		Subject.objects.create(title = "sub2", subjectCode = '2', subjectID = "000002")
+    def setUp(self):
+        Subject.objects.create(title="sub1", subjectCode='1', subjectID="000001")
+        Subject.objects.create(title="sub2", subjectCode='2', subjectID="000002")
 
-	def test_subject_success(self):
-		subject1 = Subject.objects.get(title="sub1")
-		subject2 = Subject.objects.get(title="sub2")
-		self.assertIs(subject1==subject2,False)
+    def test_subject_success(self):
+        subject1 = Subject.objects.get(title="sub1")
+        subject2 = Subject.objects.get(title="sub2")
+        self.assertIs(subject1 == subject2, False)
 
 
 class TagInSubjectTestCase(TestCase):
-	def setUp(self):
+    def setUp(self):
 
+        self.user = User.objects.create_user(
+            username='foo', email='testest@notadomain.not', password='bar')
 
-		self.user = User.objects.create_user(username='foo', email='testest@notadomain.not', password='bar')
+        Subject.objects.create(
+            title="Objektorientert Programmering",
+            subjectCode="TDT4100",
+            subjectID="545454")
+        Subject.objects.create(
+        	title="Brukerkurs", 
+        	subjectCode="MA0001", 
+        	subjectID="220022")
+        Subject.objects.create(
+            title="Programvareutvikling",
+            subjectCode="TDT4140",
+            subjectID="123123")
+        Tag.objects.create(
+            title="Intro",
+            subject=Subject.objects.get(
+                subjectID="123123"),
+            creator=Profile.objects.first())
 
-		Subject.objects.create(title = "Objektorientert Programmering", subjectCode = "TDT4100", subjectID="545454")
-		Subject.objects.create(title = "Brukerkurs", subjectCode = "MA0001", subjectID = "220022")
-		Subject.objects.create(title = "Programvareutvikling", subjectCode = "TDT4140", subjectID = "123123")
-		Profile.objects.create(user=self.user)
-		SubjectUser.objects.create(user = Profile.objects.first(),subject = Subject.objects.get(subjectID="123123"))
-		Tag.objects.create(title = "Intro", subject = Subject.objects.get(subjectID = "123123"),creator=Profile.objects.first()  )
-
-	def test_tag_in_subject(self):
-		subject_title = Subject.objects.get(subjectID="123123").title
-		subjectfromtag_title = Tag.objects.get(title="Intro").subject.title
-		self.assertEqual(subject_title,subjectfromtag_title)
+    def test_tag_in_subject(self):
+        subject_title = Subject.objects.get(subjectID="123123").title
+        subjectfromtag_title = Tag.objects.get(title="Intro").subject.title
+        self.assertEqual(subject_title, subjectfromtag_title)
 
 
 class ProfileTestCase(TestCase):
-	def setUp(self):
-		self.user = User.objects.create_user(username='foo', email='testest@notadomain.not', password='bar')
-		Subject.objects.create(title = "sub1", subjectCode = '1', subjectID = "000001")
-		Subject.objects.create(title = "sub2", subjectCode = '2', subjectID = "000002")
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username='foo', email='testest@notadomain.not', password='bar')
+        Subject.objects.create(title="sub1", subjectCode='1', subjectID="000001")
+        Subject.objects.create(title="sub2", subjectCode='2', subjectID="000002")
 
+    def test_profile(self):
+        # Create subjects
+        s3 = Subject(title="sub3", subjectCode='3', subjectID="000003")
+        s3.save()
+        s4 = Subject(title="sub4", subjectCode='4', subjectID="000004")
+        s4.save()
 
-	def test_profile(self):
-		#Create subjects
-		s3 = Subject(title = "sub3", subjectCode = '3', subjectID = "000003")
-		s3.save()
-		s4 = Subject(title = "sub4", subjectCode = '4', subjectID = "000004")
-		s4.save()
+        # Create profile
+        p1 = Profile.objects.create(user=self.user)
+        p1.save()
 
-		#Create profile
-		p1 = Profile.objects.create(user = self.user)
-		p1.save()
+        # Relate profile ("user") to subject
+        SubjectUser.objects.create(user=p1, subject=s3)
+        SubjectUser.objects.create(user=p1, subject=s4)
 
-		#Relate profile ("user") to subject
-		SubjectUser.objects.create(user=p1,subject=s3)
-		SubjectUser.objects.create(user=p1,subject=s4)
-
-		#Delete the first subject added.
-		p1.subjects.filter(title="sub3").delete()
+        # Delete the first subject added.
+        p1.subjects.filter(title="sub3").delete()
 
 
 class LectureTestCase(TestCase):
-	def setUp(self):
-		s3 = Subject(title = "sub3", subjectCode = '3', subjectID = "000003")
-		s3.save()
-		s4 = Subject(title = "sub4", subjectCode = '4', subjectID = "000004")
-		s4.save()
+    def setUp(self):
+        s3 = Subject(title="sub3", subjectCode='3', subjectID="000003")
+        s3.save()
+        s4 = Subject(title="sub4", subjectCode='4', subjectID="000004")
+        s4.save()
 
-
-	def test_lecture(self):
-		Lecture.objects.create(title="Best lecture ever!", subject=Subject.objects.get(subjectID="000003"))
+    def test_lecture(self):
+        Lecture.objects.create(
+            title="Best lecture ever!",
+            subject=Subject.objects.get(
+                subjectID="000003"))
 
 
 class DuplicateSubjectTestCase(TestCase):
-	def setUp(self):
-		Subject.objects.create(title = "sub1", subjectCode = '1', subjectID = "000001")
+    def setUp(self):
+        Subject.objects.create(title="sub1", subjectCode='1', subjectID="000001")
 
-	def test_create_duplicate(self):
-		try:
-			Subject.objects.create(title = "sub2", subjectCode = '2', subjectID = "000001")
-		except:
-			print("Cannot create subject with duplicate ID")
-		finally:
-			print("Dette skjer")
+    def test_create_duplicate(self):
+        try:
+            Subject.objects.create(title="sub2", subjectCode='2', subjectID="000001")
+        except BaseException:
+            print("Cannot create subject with duplicate ID")
+        finally:
+            print("Dette skjer")
 
 # --- end of models.py tests ---
 
@@ -104,7 +116,7 @@ class DuplicateSubjectTestCase(TestCase):
 # --- Test for views.py ---
 #
 # What has been tested?
-# - 
+# -
 #
 # What has not been tested?
 # - login, register, send_registration_confirmation
@@ -113,30 +125,32 @@ class DuplicateSubjectTestCase(TestCase):
 # - change_password
 
 class LoginPageGetTest(TestCase):
-	def setUp(self):
-		self.client = Client()
+    def setUp(self):
+        self.client = Client()
 
-	def test_get_login_page(self):
-		response = self.client.get(reverse('login'))
-		self.assertEqual(response.status_code,200)
+    def test_get_login_page(self):
+        response = self.client.get(reverse('login'))
+        self.assertEqual(response.status_code, 200)
 
 
 class LoginTest(TestCase):
-	def setUp(self):
-		self.client = Client()
-		User.objects.create_user(username='foo',password='bar')
+    def setUp(self):
+        self.client = Client()
+        User.objects.create_user(username='foo', password='bar')
 
-	def test_login(self):
-		# Måten vi MÅ få det til å funke på:
-		"""response = self.client.post(reverse('login'), {"username":"foo","password":"bar"}, follow = True)
-		print(response.status_code)
-		print(response.context['user'])
-		print(response.context['user'].is_authenticated())"""
+    def test_login(self):
+        # Måten vi MÅ få det til å funke på:
+        """#
+        response = self.client.post(reverse('login'),
+                    {"username":"foo","password":"bar"}, follow = True)
+        print(response.status_code)
+        print(response.context['user'])
+        print(response.context['user'].is_authenticated())
+        """
 
-		#Denne måten funker, men den bruker IKKE VIEWET
-		login = self.client.login(username="foo",password="bar")
-		self.assertEqual(login,True)
+        # Denne måten funker, men den bruker IKKE VIEWET
+        login = self.client.login(username="foo", password="bar")
+        self.assertEqual(login, True)
 
-
-		#user = auth.get_user(self.client)
-		#self.assertTrue(user.is_authenticated())
+        # user = auth.get_user(self.client)
+        # self.assertTrue(user.is_authenticated())
