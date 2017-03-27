@@ -159,7 +159,7 @@ class RegisterTest(TestCase):
 
 	def test_register(self):
 
-		#response = self.client.post(reverse('register'),{"username" : "foofoo123123","email" : "myemail@testdomainthisdoesntexistnope.hahanope","password" : "barbar123123"})
+		response = self.client.post(reverse('register'),{"username" : "foofoo123123","email" : "myemail@testdomainthisdoesntexistnope.hahanope","password" : "barbar123123"})
 
 		"""self.client.post(reverse('login'),
             {"loginusername":"foofoo123123","loginpassword":"barbar123123"}, 
