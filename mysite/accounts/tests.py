@@ -166,5 +166,5 @@ class RegisterTest(TestCase):
         self.client.post(reverse('login'),
             {"loginusername":"foofoo123123","loginpassword":"barbar123123"}, 
             follow = True)
-
         self.assertEqual(response.context['user'].is_authenticated(),True)
+

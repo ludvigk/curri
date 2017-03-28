@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'djcelery_email',
     'mysite',
     'home',
+    'django_nose',
 ]
 
 MIDDLEWARE = [
@@ -138,3 +139,8 @@ STATIC_URL = '/static/'
 
 
 CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672/'
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+NOSE_ARGS = [
+    '--with-coverage',
+]

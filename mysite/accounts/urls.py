@@ -22,7 +22,7 @@ from . import views
 
 urlpatterns = [
     url(r'^login/$', views.login, name='login'),
-    url(r'^register/$', views.register),
+    url(r'^register/$', views.register, name='register'),
     url(r'^checkusername/$', views.checkusername),
     url(r'^checkemail/$', views.checkemail),
     url(r'^validate/(?P<uidb64>[0-9A-Za-z_\-]+)/' +
