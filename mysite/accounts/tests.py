@@ -160,11 +160,25 @@ class RegisterTest(TestCase):
 
     def test_register(self):
         response=self.client.post(reverse('register'),{"username":"foofoo123123","email":"exburn0@gmail.com","password":"barbar123123"},follow=True)
+        
+        from django.contrib.auth import get_user_model
         user_model = get_user_model()
-        user = user_model.objects.first()
+        user = user_model.objects.get(username = "foofoo123123")
         user.is_active = True
         self.client.post(reverse('login'),
             {"loginusername":"foofoo123123","loginpassword":"barbar123123"}, 
             follow = True)
         self.assertEqual(response.context['user'].is_authenticated(),True)
 
+
+class CheckUsernameTest(TestCase):
+    def SetUp(self):
+        self.client = Client()
+
+    def test_check_username(self):
+
+        response = self.client.post(reverse('checkusername'),{"username" : "foo"})
+        User.objects.create_user(username='foo', password='bar')
+
+        # Denne skal ikke være invalid.. hmm
+        self.assertContains(response, "Invalid request")
