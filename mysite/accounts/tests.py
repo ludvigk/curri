@@ -177,7 +177,7 @@ class RegisterTest(TestCase):
 
 
 class CheckUsernameTest(TestCase):
-    def SetUp(self):
+    def setUp(self):
         self.client = Client()
 
     def test_checkusername(self):
@@ -189,3 +189,15 @@ class CheckUsernameTest(TestCase):
         # Denne skal ikke være invalid.. hmm
         self.assertContains(response, "False")
         self.assertContains(response2, "True")
+
+
+class CheckEmailTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        User.objects.create_user(username='123123', password='bar', email="taken@mydomain.no")
+
+    def test_checkemail(self):
+        response = self.client.get(reverse('checkemail'),{"email" : "unique@mydomain.no"})
+        response2 = self.client.get(reverse('checkemail'),{"email" : "taken@mydomain.no"})
+        self.assertContains(response, "True")
+        self.assertContains(response2, "False")
