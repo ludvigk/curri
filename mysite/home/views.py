@@ -109,7 +109,7 @@ def rate_tag(request):
 
 @login_required(login_url='/accounts/login/')
 def add_tag(request):
-    lectureID = request.POST.get('lid', '')
+    lectureID = int(request.POST.get('lectureID', ''))
     lecture = Lecture.objects.get(id=lectureID)
     title = request.POST.get('title','')
     tag = Tag.get_or_create(creator=request.user, lecture=lecture, title=title)
