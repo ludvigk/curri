@@ -112,7 +112,7 @@ def add_tag(request):
     lectureID = int(request.POST.get('lectureID', ''))
     lecture = Lecture.objects.get(id=lectureID)
     title = request.POST.get('title','')
-    tag = Tag.get_or_create(creator=request.user, lecture=lecture, title=title)
+    tag = Tag.objects.get_or_create(creator=request.user, lecture=lecture, title=title)
     return HttpResponse('')
 
 
