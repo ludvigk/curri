@@ -51,16 +51,21 @@ class TagInSubjectTestCase(TestCase):
 
         Profile.objects.create(user=self.user)
 
-        Tag.objects.create(
-            title="Intro",
+        Lecture.objects.create(
+            title="Best lecture ever!",
             subject=Subject.objects.get(
-                subjectID="123123"),
-            creator=self.user)
+                subjectID="123123"))
+
 
     def test_tag_in_subject(self):
-        subject_title = Subject.objects.get(subjectID="123123").title
-        subjectfromtag_title = Tag.objects.get(title="Intro").subject.title
-        self.assertEqual(subject_title, subjectfromtag_title)
+        Tag.objects.create(
+            title="Intro",
+            lecture=Lecture.objects.first(),
+            creator=self.user)
+
+        lecture_title = Lecture.objects.get(subject=Subject.objects.get(subjectID="123123")).title
+        lecturefromtag_title = Tag.objects.get(title="Intro").lecture.title
+        self.assertEqual(lecture_title, lecturefromtag_title)
 
 
 class ProfileTestCase(TestCase):
@@ -175,10 +180,12 @@ class CheckUsernameTest(TestCase):
     def SetUp(self):
         self.client = Client()
 
-    def test_check_username(self):
+    def test_checkusername(self):
+        User.objects.create_user(username='123123', password='bar')
 
-        response = self.client.post(reverse('checkusername'),{"username" : "foo"})
-        User.objects.create_user(username='foo', password='bar')
+        response = self.client.get(reverse('checkusername'),{"username" : "123123"})
+        response2 = self.client.get(reverse('checkusername'),{"username" : "unique"})
 
         # Denne skal ikke være invalid.. hmm
-        self.assertContains(response, "Invalid request")
+        self.assertContains(response, "False")
+        self.assertContains(response2, "True")
