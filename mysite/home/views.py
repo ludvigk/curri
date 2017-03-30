@@ -22,7 +22,7 @@ def subject(request, subjectID):
     profile = Profile.objects.filter(user=request.user).first()
     queryset = SubjectUser.objects.filter(user__user=request.user)
     pf = Prefetch("subjectuser_set", queryset=queryset, to_attr="su")
-    subject = Subject.objects.filter(profile__user=request.user).prefetch_related(pf).first()
+    subject = Subject.objects.filter(profile__user=request.user).prefetch_related(pf).get(subjectID=subjectID)
     if not subject:
         return HttpResponse('No such subject')
     return render(request, 'home/subject.html', {'subject': subject})
@@ -92,16 +92,33 @@ def rate_lecture(request):
 
 @login_required(login_url='/accounts/login/')
 def rate_tag(request):
-    return HttpResponse('')
+    if not request.method == 'POST':
+        return HttpResponse('0')
+    tagID = request.POST.get('tagID', '')
+    score = request.POST.get('score', '')
+    tag = Tag.objects.get(id=int(tagID))
+    user = request.user
+    profile = Profile.objects.get(user=user)
+    try:
+        rating = lecture.rating.objects.filter(user=user)
+        return ('False')
+    except Exception as e:
+        rating = TagRating.objects.create(user=profile, rating=int(score), tag=tag)
+        return HttpResponse('True')
 
 
 @login_required(login_url='/accounts/login/')
-def add_tag(request):
+def add_tag(request, lectureID):
+    lecture = Lecture.objects.get(id=lectureID)
+    title = request.POST.get('title','')
+    tag = Tag.get_or_create(creator=request.user, lecture=lecture, title=title)
     return HttpResponse('')
 
 
 @login_required(login_url='/accounts/login/')
 def remove_tag(request):
+    if is_admin(request, subjectID):
+        pass
     return HttpResponse('')
 
 
@@ -119,7 +136,10 @@ def edit_lecture(request):
 
 
 @login_required(login_url='/accounts/login/')
-def remove_lecture(request):
+def remove_lecture(request, subjectID, lectureID):
+    if is_admin(request, subjectID):
+        lecture = Lecture.objects.get(id=lectureID)
+        lecture.delete()
     return HttpResponse('')
 
 
