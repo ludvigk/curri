@@ -108,7 +108,8 @@ def rate_tag(request):
 
 
 @login_required(login_url='/accounts/login/')
-def add_tag(request, lectureID):
+def add_tag(request):
+    lectureID = request.POST.get('lid', '')
     lecture = Lecture.objects.get(id=lectureID)
     title = request.POST.get('title','')
     tag = Tag.get_or_create(creator=request.user, lecture=lecture, title=title)
@@ -136,7 +137,7 @@ def edit_lecture(request):
 
 
 @login_required(login_url='/accounts/login/')
-def remove_lecture(request, subjectID, lectureID):
+def remove_lecture(request, subjectID):
     if is_admin(request, subjectID):
         lecture = Lecture.objects.get(id=lectureID)
         lecture.delete()
