@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^login/$', views.login, name='login'),
     url(r'^register/$', views.register, name='register'),
     url(r'^checkusername/$', views.checkusername, name='checkusername'),
-    url(r'^checkemail/$', views.checkemail),
+    url(r'^checkemail/$', views.checkemail, name='checkemail'),
     url(r'^validate/(?P<uidb64>[0-9A-Za-z_\-]+)/' +
         '(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.activationview,
         name='verify_email'),
