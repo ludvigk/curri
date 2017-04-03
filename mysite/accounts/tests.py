@@ -152,8 +152,8 @@ class LoginTest(TestCase):
         # Måten vi MÅ få det til å funke på:
 
         response = self.client.post(reverse('login'),
-                        {"loginusername": "foo", "loginpassword": "bar"},
-                        follow=True)
+                            {"loginusername": "foo", "loginpassword": "bar"},
+                            follow=True)
 
         self.assertEqual(response.context['user'].is_authenticated(), True)
 
@@ -164,18 +164,18 @@ class RegisterTest(TestCase):
 
     def test_register(self):
         response = self.client.post(reverse('register'),
-                            {"username": "foofoo123123",
-                                "email": "exburn0@gmail.com",
-                                "password": "barbar123123"},
-                            follow=True)
+            {"username": "foofoo123123",
+            "email": "exburn0@gmail.com",
+            "password": "barbar123123"},
+            follow=True)
 
         from django.contrib.auth import get_user_model
         user_model = get_user_model()
         user = user_model.objects.get(username="foofoo123123")
         user.is_active = True
         self.client.post(reverse('login'),
-                {"loginusername": "foofoo123123","loginpassword": "barbar123123"},
-                follow=True)
+            {"loginusername": "foofoo123123", "loginpassword": "barbar123123"},
+            follow=True)
         self.assertEqual(response.context['user'].is_authenticated(), True)
 
 
@@ -218,12 +218,12 @@ class ChangePasswordTest(TestCase):
 
         # Login and change password
         login_response = self.client.post(reverse('login'),
-                                {"loginusername": "testuser", "loginpassword": "bar"},
-                                follow=True)
+            {"loginusername": "testuser", "loginpassword": "bar"},
+            follow=True)
         change_response = self.client.post(reverse('password_change'),
-                                {"old_password": "bar",
-                                "new_password1": "notbar123123",
-                                "new_password2": "notbar123123"})
+            {"old_password": "bar",
+            "new_password1": "notbar123123",
+            "new_password2": "notbar123123"})
 
         # Logout
         self.client.logout()
