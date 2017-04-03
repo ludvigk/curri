@@ -201,3 +201,28 @@ class CheckEmailTest(TestCase):
         response2 = self.client.get(reverse('checkemail'),{"email" : "taken@mydomain.no"})
         self.assertContains(response, "True")
         self.assertContains(response2, "False")
+
+
+class ChangePasswordTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        User.objects.create_user(username = 'testuser', password='bar')
+
+    def test_change_password(self):
+
+        # Login and change password
+        login_response = self.client.post(reverse('login'),
+                    {"loginusername":"testuser","loginpassword":"bar"}, 
+                    follow = True)
+        change_response = self.client.post(reverse('password_change'),{"old_password" : "bar","new_password1" : "notbar", "new_password2" : "notbar"})
+        
+        # Logout
+        self.client.logout()
+        print(change_response.status_code)
+
+        # Login with new password and check status
+        login2_response = self.client.post(reverse('login'),
+                    {"loginusername":"testuser","loginpassword":"notbar"}, 
+                    follow = True)
+        self.assertEqual(login2_response.context['user'].is_authenticated(),True)
+
