@@ -37,6 +37,7 @@ class Lecture(models.Model):
     title = models.CharField(max_length=100)
     date = models.DateTimeField(default=timezone.now)
 
+
 class Profile(models.Model):
     user = models.OneToOneField('auth.User', on_delete=models.CASCADE)
     subjects = models.ManyToManyField('Subject', through='SubjectUser')
