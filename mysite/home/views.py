@@ -22,7 +22,9 @@ def subject(request, subjectID):
     profile = Profile.objects.filter(user=request.user).first()
     queryset = SubjectUser.objects.filter(user__user=request.user)
     pf = Prefetch("subjectuser_set", queryset=queryset, to_attr="su")
-    subject = Subject.objects.filter(profile__user=request.user).prefetch_related(pf).get(subjectID=subjectID)
+    subject = Subject.objects.filter(
+        profile__user=request.user).prefetch_related(pf).get(
+            subjectID=subjectID)
     if not subject:
         return HttpResponse('No such subject')
     return render(request, 'home/subject.html', {'subject': subject})
@@ -111,7 +113,7 @@ def rate_tag(request):
 def add_tag(request):
     lectureID = int(request.POST.get('lectureID', ''))
     lecture = Lecture.objects.get(id=lectureID)
-    title = request.POST.get('title','')
+    title = request.POST.get('title', '')
     tag = Tag.objects.get_or_create(creator=request.user, lecture=lecture, title=title)
     return HttpResponse('')
 
