@@ -56,7 +56,6 @@ class TagInSubjectTestCase(TestCase):
             subject=Subject.objects.get(
                 subjectID="123123"))
 
-
     def test_tag_in_subject(self):
         Tag.objects.create(
             title="Intro",
@@ -153,10 +152,10 @@ class LoginTest(TestCase):
         # Måten vi MÅ få det til å funke på:
         
         response = self.client.post(reverse('login'),
-                    {"loginusername":"foo","loginpassword":"bar"}, 
-                    follow = True)
+                    {"loginusername": "foo","loginpassword": "bar"},
+                    follow=True)
 
-        self.assertEqual(response.context['user'].is_authenticated(),True)
+        self.assertEqual(response.context['user'].is_authenticated(), True)
 
 
 class RegisterTest(TestCase):
@@ -164,16 +163,20 @@ class RegisterTest(TestCase):
         self.client = Client()
 
     def test_register(self):
-        response=self.client.post(reverse('register'),{"username":"foofoo123123","email":"exburn0@gmail.com","password":"barbar123123"},follow=True)
+        response = self.client.post(reverse('register'),
+                        {"username": "foofoo123123",
+                            "email": "exburn0@gmail.com",
+                            "password": "barbar123123"},
+                        follow=True)
         
         from django.contrib.auth import get_user_model
         user_model = get_user_model()
-        user = user_model.objects.get(username = "foofoo123123")
+        user = user_model.objects.get(username="foofoo123123")
         user.is_active = True
         self.client.post(reverse('login'),
-            {"loginusername":"foofoo123123","loginpassword":"barbar123123"}, 
-            follow = True)
-        self.assertEqual(response.context['user'].is_authenticated(),True)
+            {"loginusername": "foofoo123123","loginpassword": "barbar123123"},
+            follow=True)
+        self.assertEqual(response.context['user'].is_authenticated(), True)
 
 
 class CheckUsernameTest(TestCase):
@@ -183,8 +186,8 @@ class CheckUsernameTest(TestCase):
     def test_checkusername(self):
         User.objects.create_user(username='123123', password='bar')
 
-        response = self.client.get(reverse('checkusername'),{"username" : "123123"})
-        response2 = self.client.get(reverse('checkusername'),{"username" : "unique"})
+        response = self.client.get(reverse('checkusername'), {"username": "123123"})
+        response2 = self.client.get(reverse('checkusername'), {"username": "unique"})
 
         # Denne skal ikke være invalid.. hmm
         self.assertContains(response, "False")
@@ -195,13 +198,13 @@ class CheckEmailTest(TestCase):
     def setUp(self):
         self.client = Client()
         User.objects.create_user(
-            username = '123123',
-            password = 'bar', 
-            email = "taken@mydomain.no")
+            username='123123',
+            password='bar',
+            email="taken@mydomain.no")
 
     def test_checkemail(self):
-        response = self.client.get(reverse('checkemail'), {"email" : "unique@mydomain.no"})
-        response2 = self.client.get(reverse('checkemail'), {"email" : "taken@mydomain.no"})
+        response = self.client.get(reverse('checkemail'), {"email": "unique@mydomain.no"})
+        response2 = self.client.get(reverse('checkemail'), {"email": "taken@mydomain.no"})
         self.assertContains(response, "True")
         self.assertContains(response2, "False")
 
@@ -209,26 +212,25 @@ class CheckEmailTest(TestCase):
 class ChangePasswordTest(TestCase):
     def setUp(self):
         self.client = Client()
-        User.objects.create_user(username = 'testuser', password = 'bar')
+        User.objects.create_user(username='testuser', password='bar')
 
     def test_change_password(self):
 
         # Login and change password
         login_response = self.client.post(reverse('login'),
-                    {"loginusername" : "testuser", "loginpassword" : "bar"}, 
-                    follow = True)
-        change_response = self.client.post(reverse('password_change'), 
-            {"old_password" : "bar",
-            "new_password1" : "notbar123123",
-            "new_password2" : "notbar123123"
-            })
+                    {"loginusername": "testuser", "loginpassword": "bar"},
+                    follow=True)
+        change_response = self.client.post(reverse('password_change'),
+            {"old_password": "bar",
+            "new_password1": "notbar123123",
+            "new_password2": "notbar123123"})
 
         # Logout
         self.client.logout()
 
         # Login with new password and check status
         login2_response = self.client.post(reverse('login'),
-                    {"loginusername" : "testuser", "loginpassword" : "notbar123123"},
-                    follow = True)
+                            {"loginusername": "testuser", "loginpassword": "notbar123123"},
+                            follow=True)
 
         self.assertEqual(login2_response.context['user'].is_authenticated(), True)
