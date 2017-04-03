@@ -100,7 +100,6 @@ def checkemail(request):
 
 
 def change_password(request):
-    return HttpResponse(request.method)
     if request.method == "POST":
         form = PasswordChangeForm(user=request.user, data=request.POST)
         update_session_auth_hash(request, form.user)

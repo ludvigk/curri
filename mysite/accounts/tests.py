@@ -214,15 +214,15 @@ class ChangePasswordTest(TestCase):
         login_response = self.client.post(reverse('login'),
                     {"loginusername":"testuser","loginpassword":"bar"}, 
                     follow = True)
-        change_response = self.client.post(reverse('password_change'),{"old_password" : "bar","new_password1" : "notbar", "new_password2" : "notbar"})
+        change_response = self.client.post(reverse('password_change'),{"old_password" : "bar","new_password1" : "notbar123123", "new_password2" : "notbar123123"})
         
         # Logout
         self.client.logout()
-        print(change_response.status_code)
 
         # Login with new password and check status
         login2_response = self.client.post(reverse('login'),
-                    {"loginusername":"testuser","loginpassword":"notbar"}, 
+                    {"loginusername":"testuser","loginpassword":"notbar123123"}, 
                     follow = True)
+
         self.assertEqual(login2_response.context['user'].is_authenticated(),True)
 
