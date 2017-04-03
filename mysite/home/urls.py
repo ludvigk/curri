@@ -32,6 +32,7 @@ urlpatterns = [
     url(r'^rate_lecture/$', views.rate_lecture, name="rate_lecture"),
     url(r'^rate_tag/$', views.rate_tag, name="rate_tag"),
     url(r'^add_tag/$', views.add_tag, name="add_tag"),
+    url(r'^statistics/(?P<subjectID>[0-9A-Za-z]{6})/$', views.statistics, name='statistics')
 ]
 
 urlpatterns += staticfiles_urlpatterns()
