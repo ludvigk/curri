@@ -27,5 +27,19 @@ class CreateSubjectTest(TestCase):
             follow=True)
 
 	def test_create_subject(self):
-		subject_response = self.client.get(reverse('create_subject'), {"subject": "test1", "subjectCode": "ABC1234"})
+		subject_response = self.client.get(reverse('create_subject'),
+			{"subject": "test1", "subjectCode": "ABC1234"})
 		self.assertEqual(Subject.objects.first().title,"test1")
+
+
+class DeleteSubjectTest(TestCase):
+	def setUp(self):
+
+	def test_delete_subject(self):
+
+
+
+class AddLectureTest(TestCase):
+	def setUp(self):
+
+	def test_add_lecture(self):
