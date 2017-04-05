@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'mysite',
     'home',
     'django_nose',
+    'graphos',
 ]
 
 MIDDLEWARE = [

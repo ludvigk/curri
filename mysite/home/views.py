@@ -113,7 +113,7 @@ def rate_tag(request):
 def add_tag(request):
     lectureID = int(request.POST.get('lectureID', ''))
     lecture = Lecture.objects.get(id=lectureID)
-    title = request.POST.get('title', '')
+    title = request.POST.get('title','').lower()
     tag = Tag.objects.get_or_create(creator=request.user, lecture=lecture, title=title)
     return HttpResponse('')
 
@@ -147,8 +147,22 @@ def remove_lecture(request, subjectID):
 
 
 @login_required(login_url='/accounts/login/')
-def statistics(request):
-    return HttpResponse('')
+def statistics(request, subjectID):
+    from graphos.sources.model import SimpleDataSource
+    from graphos.renderers.gchart import ColumnChart
+    subject = Subject.objects.get(subjectID=subjectID)
+    lectures = Lecture.objects.filter(subject=subject)
+    user = request.user
+    profile = Profile.objects.get(user=user)
+    rating = Rating.objects.filter(user=profile).select_related().values('rating', 'lecture__title')
+    data = [list(rating[0].keys())]
+    for el in rating:
+        data_set = [el['lecture__title'], el['rating']]
+        data += [data_set]
+    data_source = SimpleDataSource(data=data)
+    chart = ColumnChart(data_source)
+    print(data)
+    return render(request, 'home/statistics.html', {'chart': chart})
 
 
 def is_admin(request, subjectID):
