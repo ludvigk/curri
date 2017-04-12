@@ -24,7 +24,9 @@
     <div class="container">
 	   <div class="row">
            <div id="searchsubject" class="search col-md-7 col-md-offset-4">
-             <form action={% url 'add_subject' %} method="post">
+             {%  load static %}
+             <script src={% static 'home/js/add_subject.js' %}></script>
+             <form action="JavaScript:addSubject()" method="post">
                    {% csrf_token %}
                    <input type="text" id="subjectID" name="subjectID" class="form-control input-sm" maxlength="64" placeholder="Subject ID" />
                    <button id="addsubject" type="submit" class="btn btn-success btn-sm">Add subject</button>

@@ -19,12 +19,14 @@ def home(request):
 def subject(request, subjectID):
     if not subjectID:
         return HttpResponse('')
-    profile = Profile.objects.filter(user=request.user).first()
+    profile = Profile.objects.get(user=request.user)
     queryset = SubjectUser.objects.filter(user__user=request.user)
+    queryset2 = Rating.objects.filter(user=profile)
     pf = Prefetch("subjectuser_set", queryset=queryset, to_attr="su")
+    pf2 = Prefetch("lecture_set__rating_set", queryset=queryset2)
     subject = Subject.objects.filter(
-        profile__user=request.user).prefetch_related(pf).get(
-            subjectID=subjectID)
+        profile__user=request.user).prefetch_related(pf).filter(
+            subjectID=subjectID).prefetch_related("lecture_set", pf2).first()
     if not subject:
         return HttpResponse('No such subject')
     return render(request, 'home/subject.html', {'subject': subject})
@@ -44,7 +46,7 @@ def add_subject(request):
         profile = Profile.objects.create(user=user)
     finally:
         if not subject:
-            return HttpResponse('')
+            return HttpResponse('No such subject')
         SubjectUser.objects.get_or_create(user=profile, subject=subject, permissions='student')
         return HttpResponse('')
 
@@ -150,14 +152,15 @@ def remove_lecture(request, subjectID):
 def statistics(request, subjectID):
     from graphos.sources.model import SimpleDataSource
     from graphos.renderers.gchart import ColumnChart
+    from django.db.models import Avg, Count
     subject = Subject.objects.get(subjectID=subjectID)
-    lectures = Lecture.objects.filter(subject=subject)
+    lectures = Lecture.objects.filter(subject=subject).annotate()
     user = request.user
     profile = Profile.objects.get(user=user)
-    rating = Rating.objects.filter(user=profile).select_related().values('rating', 'lecture__title')
+    rating = Rating.objects.filter(lecture__subject=subject).values('lecture_id').annotate(Avg('rating'))
     data = [list(rating[0].keys())]
     for el in rating:
-        data_set = [el['lecture__title'], el['rating']]
+        data_set = [el['lecture_id'], el['rating__avg']]
         data += [data_set]
     data_source = SimpleDataSource(data=data)
     chart = ColumnChart(data_source)
