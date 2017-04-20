@@ -130,8 +130,9 @@ def remove_tag(request):
 @login_required(login_url='/accounts/login/')
 def add_lecture(request, subjectID):
     if is_admin(request, subjectID):
+        title = request.POST.get('title', '')
         subject = Subject.objects.filter(subjectID=subjectID).first()
-        Lecture.objects.create(subject=subject)
+        Lecture.objects.create(subject=subject, title=title)
     return redirect('subject', subjectID)
 
 
@@ -143,6 +144,7 @@ def edit_lecture(request):
 @login_required(login_url='/accounts/login/')
 def remove_lecture(request, subjectID):
     if is_admin(request, subjectID):
+        lectureID = request.POST.get('lectureID', '')
         lecture = Lecture.objects.get(id=lectureID)
         lecture.delete()
     return HttpResponse('')
@@ -160,11 +162,10 @@ def statistics(request, subjectID):
     rating = Rating.objects.filter(lecture__subject=subject).values('lecture_id').annotate(Avg('rating'))
     data = [list(rating[0].keys())]
     for el in rating:
-        data_set = [el['lecture_id'], el['rating__avg']]
+        data_set = [Lecture.objects.get(id=el['lecture_id']).title, el['rating__avg']]
         data += [data_set]
     data_source = SimpleDataSource(data=data)
     chart = ColumnChart(data_source)
-    print(data)
     return render(request, 'home/statistics.html', {'chart': chart})
 
 

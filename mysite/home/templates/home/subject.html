@@ -10,12 +10,10 @@
       {% for lecture in subject.lecture_set.all %}
           <ul id="lecture" class="panel list-group col-md-7 col-md-offset-3">
               <a href=# class="list-group-item list-group-item-action clearfix" data-toggle="collapse" data-target="#div_{{ lecture.id }}" data-parent="#lecture">
-                  <span class="pull-left text-right">{{ subject.title }}</span>
+                  <span class="pull-left text-right">{{ lecture.title }}</span>
                   <span class="pull-right">
                     <div id={{ lecture.id }} class="starrr" data-rating={{ lecture.rating_set.all.0.rating }}></div>
                   </span>
-                  |{{ subject.subjectID }}
-
               </a>
               <div id="div_{{ lecture.id }}" class="collapse panel-collapse">
                   <div class="panel-body" style="background-color: #F5F5F5;">
