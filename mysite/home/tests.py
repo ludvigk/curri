@@ -11,14 +11,30 @@ from django.contrib import auth
 # What has been tested?
 # - create_subject, add_subject delete_subject
 # - add_lecture, rate_lecture, remove_lecture
+# - add_tag
 # - is_admin
 #
 # What has not been tested?
 # - home
 # - subject
-# - add_tag, rate_tag, remove_tag
+# - remove_tag
 # - edit_lecture
 # - statistics
+
+class HomeTest(TestCase):
+	def setUp(self):
+		pass
+
+	def test_home(self):
+		pass
+
+
+class SubjectTest(TestCase):
+	def setUp(self):
+		pass
+
+	def test_home(self):
+		pass
 
 class CreateSubjectTest(TestCase):
 	def setUp(self):
@@ -49,8 +65,6 @@ class AddSubjectTest(TestCase):
 			{"subjectID": "000001"})
 
 		self.assertEqual(SubjectUser.objects.first().user.user.username,'testuser')
-
-
 
 
 class DeleteSubjectTest(TestCase):
@@ -87,6 +101,14 @@ class AddLectureTest(TestCase):
 			{"title": "Forelesning 1"})
 
 		self.assertEqual(Lecture.objects.first().title,"Forelesning 1")
+
+
+class EditLectureTest(TestCase):
+	def setUp(self):
+		pass
+
+	def test_edit_lecture(self):
+		pass
 
 
 class RemoveLectureTest(TestCase):
@@ -128,6 +150,79 @@ class RateLectureTest(TestCase):
 			{"lectureID": Lecture.objects.first().id,
 			"score": 3})
 		self.assertEqual(Rating.objects.first().rating, 3)
+
+
+class AddTagTest(TestCase):
+	def setUp(self):
+		self.client = Client()
+		self.factory = RequestFactory()
+		self.user = User.objects.create_user(username='testuser', password='bar')
+		login_response = self.client.post(reverse('login'),
+			{"loginusername": "testuser", "loginpassword": "bar"},
+			follow=True)
+		subject_response = self.client.get(reverse('create_subject'),
+			{"subject": "test1", "subjectCode": "ABC1234"})
+		lecture_response = self.client.post('/home/add_lecture/'+Subject.objects.first().subjectID+'/',
+			{"title": "Forelesning 1"})
+		
+
+	def add_tag_test(self):
+		tag_response = self.client.post(reverse('add_tag'),
+			{"lectureID": Lecture.objects.first().id, "title": "test"})
+
+		self.assertEqual(Tag.objects.first().title,"test")
+		self.assertEqual(Tag.objects.first().lecture.subject.title,"test1")
+
+
+class RateTagTest(TestCase):
+	def setUp(self):
+		self.client = Client()
+		self.factory = RequestFactory()
+		self.user = User.objects.create_user(username='testuser', password='bar')
+		login_response = self.client.post(reverse('login'),
+			{"loginusername": "testuser", "loginpassword": "bar"},
+			follow=True)
+		subject_response = self.client.get(reverse('create_subject'),
+			{"subject": "test1", "subjectCode": "ABC1234"})
+		lecture_response = self.client.post('/home/add_lecture/'+Subject.objects.first().subjectID+'/',
+			{"title": "Forelesning 1"})
+		tag_response = self.client.post(reverse('add_tag'),
+			{"lectureID": Lecture.objects.first().id, "title": "test"})
+
+	def rate_tag_test(self):
+		rate_response = self.client.post(reverse('rate_tag'),
+			{"tagID": Tag.objects.first().id, "score": 3})
+
+		self.assertEqual(TagRating.objects.first().rating, 3)
+		
+
+class RemoveTagTest(TestCase):
+	def setUp(self):
+		self.client = Client()
+		self.factory = RequestFactory()
+		self.user = User.objects.create_user(username='testuser', password='bar')
+		login_response = self.client.post(reverse('login'),
+			{"loginusername": "testuser", "loginpassword": "bar"},
+			follow=True)
+		subject_response = self.client.get(reverse('create_subject'),
+			{"subject": "test1", "subjectCode": "ABC1234"})
+		lecture_response = self.client.post('/home/add_lecture/'+Subject.objects.first().subjectID+'/',
+			{"title": "Forelesning 1"})
+		tag_response = self.client.post(reverse('add_tag'),
+			{"lectureID": Lecture.objects.first().id, "title": "test"})
+		
+
+	def remove_tag_test(self):
+		pass
+
+
+class StatisticsTest(TestCase):
+	def setUp(self):
+		pass
+
+	def test_statistics(self):
+		pass
+
 
 class IsAdminTest(TestCase):
 	def setUp(self):
