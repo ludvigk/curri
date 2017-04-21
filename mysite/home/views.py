@@ -116,8 +116,10 @@ def add_tag(request):
     lectureID = int(request.POST.get('lectureID', ''))
     lecture = Lecture.objects.get(id=lectureID)
     title = request.POST.get('title','').lower()
+    if not title or Tag.objects.filter(lecture=lecture, title=title):
+        return HttpResponse('False')
     tag = Tag.objects.get_or_create(creator=request.user, lecture=lecture, title=title)
-    return HttpResponse('')
+    return HttpResponse('True')
 
 
 @login_required(login_url='/accounts/login/')
