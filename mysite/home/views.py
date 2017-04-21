@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from accounts.models import Subject, Profile, SubjectUser, Lecture, Rating, Tag
+from accounts.models import Subject, Profile, SubjectUser, Lecture, Rating, Tag, TagRating
 from django.contrib.auth import logout
 import json
 from django.db.models import Prefetch
