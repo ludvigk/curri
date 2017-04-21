@@ -11,30 +11,51 @@ from django.contrib import auth
 # What has been tested?
 # - create_subject, add_subject delete_subject
 # - add_lecture, rate_lecture, remove_lecture
-# - add_tag
+# - add_tag, remove_tag
 # - is_admin
 #
 # What has not been tested?
 # - home
 # - subject
-# - remove_tag
 # - edit_lecture
 # - statistics
 
 class HomeTest(TestCase):
 	def setUp(self):
-		pass
+		self.client = Client()
+		self.factory = RequestFactory()
+		self.user = User.objects.create_user(username='testuser', password='bar')
+		login_response = self.client.post(reverse('login'),
+			{"loginusername": "testuser", "loginpassword": "bar"},
+			follow=True)
 
 	def test_home(self):
-		pass
+		request = self.factory.get('/')
+		request.user = self.user
+		home_response = self.client.get(reverse('home'))
+
+		self.assertEqual(home_response.status_code,200)
 
 
 class SubjectTest(TestCase):
 	def setUp(self):
-		pass
+		self.client = Client()
+		self.factory = RequestFactory()
+		self.user = User.objects.create_user(username='testuser', password='bar')
+		login_response = self.client.post(reverse('login'),
+			{"loginusername": "testuser", "loginpassword": "bar"},
+			follow=True)
+		subject_response = self.client.get(reverse('create_subject'),
+			{"subject": "test1", "subjectCode": "ABC1234"})
+		#samme greia. Mulig opprett objekter
 
 	def test_home(self):
-		pass
+		request = self.factory.get('/')
+		request.user = self.user
+		subject_response = self.client.get('/home/subject/'+Subject.objects.first().subjectID+'/')
+
+		self.assertEqual(subject_response.status_code,200)
+
 
 class CreateSubjectTest(TestCase):
 	def setUp(self):
