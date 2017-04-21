@@ -26,7 +26,12 @@
                             <button type="submit" onclick="javascript:rateTag({{ tag.id }}, -1)" class="submit-with-icon pull-right">
                                 <span class="glyphicon glyphicon-thumbs-up" style="color:gray; padding: 5px; font-size: 25px;"></span>
                             </button>
-                            
+                            <div class="progress pull-right" style="height: 5px; width: 80px;">
+                              <div class="progress-bar progress-bar-success" role="progressbar" style="width:40%">
+                              </div>
+                              <div class="progress-bar progress-bar-danger" role="progressbar" style="width:60%">
+                              </div>
+                          </div>
                         </ul>    
                      {% endfor %}
                      <form action="JavaScript:addTag({{ lecture.id }})" method="post">
