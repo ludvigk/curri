@@ -17,14 +17,13 @@
               </a>
               <div id="div_{{ lecture.id }}" class="collapse panel-collapse">
                   <div class="panel-body" style="background-color: #F5F5F5;">
-                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                      {% for tag in lecture.tag_set.all %}
                      <ul id="lecture" class="panel list-group accordion" style="background-color: MintCream; height: 40px;">
                             <span class="glyphicon glyphicon-tag" style="font-size: 15px"> {{tag.title}}</span>
-                            <button type="submit" class="submit-with-icon pull-right">
+                            <button type="submit" onclick="javscript:rateTag({{ tag.id }}, 1)" class="submit-with-icon pull-right">
                                 <span class="glyphicon glyphicon-thumbs-down" style="color:red; padding: 5px; padding-left: 20px; font-size: 25px;"></span>
                             </button>
-                            <button type="submit" class="submit-with-icon pull-right">
+                            <button type="submit" onclick="javascript:rateTag({{ tag.id }}, -1)" class="submit-with-icon pull-right">
                                 <span class="glyphicon glyphicon-thumbs-up" style="color:green; padding: 5px; font-size: 25px;"></span>
                             </button>
                             
@@ -68,4 +67,5 @@
 <script src="{% static 'home/js/star_rating.js' %}"></script>
 <script src="{% static 'home/js/add_tag.js' %}"></script>
 <script src="{% static 'home/js/accordion.js' %}"></script>
+<script src="{% static 'home/js/rate_tag.js' %}"></script>
 {% endblock %}
