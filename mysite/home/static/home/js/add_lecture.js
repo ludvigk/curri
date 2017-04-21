@@ -7,6 +7,15 @@ $(document).ready(function() {
             // Revalidate the date field
             $('#eventForm').formValidation('revalidateField', 'date');
         });
+    
+    $('#enddatePicker')
+        .datepicker({
+            format: 'mm/dd/yyyy'
+        })
+        .on('changeDate', function(e) {
+            // Revalidate the date field
+            $('#eventForm').formValidation('revalidateField', 'date');
+        });
 
     $('#eventForm').formValidation({
         framework: 'bootstrap',
