@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.crypto import get_random_string
+from django.conf import settings
 
 
 def random_id():
@@ -11,7 +12,7 @@ class Subject(models.Model):
     title = models.CharField(max_length=200)
     subjectID = models.CharField(max_length=6, unique=True, null=True, default=random_id)
     subjectCode = models.CharField(max_length=10)
-    created_date = models.DateTimeField(default=timezone.now)
+    created_date = models.DateField(default=timezone.now)
 
     def __str__(self):
         return self.title
@@ -35,7 +36,7 @@ class Tag(models.Model):
 class Lecture(models.Model):
     subject = models.ForeignKey('Subject', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
-    date = models.DateTimeField(default=timezone.now)
+    date = models.DateField(default=timezone.now)
 
 
 class Profile(models.Model):

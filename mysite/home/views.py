@@ -131,8 +131,34 @@ def remove_tag(request):
 def add_lecture(request, subjectID):
     if is_admin(request, subjectID):
         title = request.POST.get('title', '')
+        repeated = request.POST.get('repeatedOptions', '')
+        date = request.POST.get('date', '')
+        datelist = []
+        enddatelist = []
+        if date:
+            datelist = date.split('/')
+            date = '{}-{}-{}'.format(datelist[2], datelist[0], datelist[1])
         subject = Subject.objects.filter(subjectID=subjectID).first()
-        Lecture.objects.create(subject=subject, title=title)
+        if repeated:
+            enddate = request.POST.get('enddate', '')
+            if enddate:
+                enddatelist = enddate.split('/')
+                enddate = '{}-{}-{}'.format(enddatelist[2], enddatelist[0], enddatelist[1])
+            else:
+                enddate = date
+            from datetime import date, timedelta
+            sevendays = timedelta(days=7)
+            d1 = date(int(datelist[2]), int(datelist[0]), int(datelist[1]))
+            d2 = date(int(enddatelist[2]), int(enddatelist[0]), int(enddatelist[1]))
+            while d1 <= d2:
+                date = "{}-{}-{}".format(d1.year, d1.month, d1.day)
+                Lecture.objects.create(subject=subject, title=title, date=date)
+                d1 += sevendays
+        else:
+            if date:
+                Lecture.objects.create(subject=subject, title=title, date=date)
+            else:
+                Lecture.objects.create(subject=subject, title=title)
     return redirect('subject', subjectID)
 
 
