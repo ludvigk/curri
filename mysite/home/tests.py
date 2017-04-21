@@ -13,12 +13,12 @@ from django.contrib import auth
 # - add_lecture, rate_lecture, remove_lecture
 # - add_tag, remove_tag
 # - is_admin
-#
-# What has not been tested?
 # - home
 # - subject
-# - edit_lecture
 # - statistics
+#
+# What has not been tested?
+# - edit_lecture
 
 class HomeTest(TestCase):
 	def setUp(self):
@@ -36,6 +36,12 @@ class HomeTest(TestCase):
 
 		self.assertEqual(home_response.status_code,200)
 
+		self.client.logout()
+		home_response = self.client.get(reverse('home'))
+		self.assertNotEqual(200,home_response.status_code)
+
+
+
 
 class SubjectTest(TestCase):
 	def setUp(self):
@@ -47,14 +53,21 @@ class SubjectTest(TestCase):
 			follow=True)
 		subject_response = self.client.get(reverse('create_subject'),
 			{"subject": "test1", "subjectCode": "ABC1234"})
-		#samme greia. Mulig opprett objekter
 
 	def test_home(self):
 		request = self.factory.get('/')
 		request.user = self.user
 		subject_response = self.client.get('/home/subject/'+Subject.objects.first().subjectID+'/')
-
 		self.assertEqual(subject_response.status_code,200)
+
+
+		subject_response = self.client.get('/home/subject/123456/')
+		self.assertContains(subject_response,"No such subject")
+
+		self.client.logout()
+		subject_response = self.client.get('/home/subject/'+Subject.objects.first().subjectID+'/')
+		self.assertNotEqual(subject_response.status_code,200)
+
 
 
 class CreateSubjectTest(TestCase):
@@ -69,6 +82,12 @@ class CreateSubjectTest(TestCase):
 		subject_response = self.client.get(reverse('create_subject'),
 			{"subject": "test1", "subjectCode": "ABC1234"})
 		self.assertEqual(Subject.objects.first().title,"test1")
+
+		self.client.logout()
+		subject_response = self.client.get(reverse('create_subject'),
+			{"subject": "test2", "subjectCode": "DEF5678"})
+
+		self.assertEqual(None,Subject.objects.filter(subjectCode="DEF5678").first())
 
 
 class AddSubjectTest(TestCase):
