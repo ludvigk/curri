@@ -239,11 +239,26 @@ class RemoveTagTest(TestCase):
 
 class StatisticsTest(TestCase):
 	def setUp(self):
-		pass
+		self.client = Client()
+		self.user = User.objects.create_user(username='testuser', password='bar')
+		login_response = self.client.post(reverse('login'),
+			{"loginusername": "testuser", "loginpassword": "bar"},
+			follow=True)
+		subject_response = self.client.get(reverse('create_subject'),
+			{"subject": "test1", "subjectCode": "ABC1234"})
+		lecture_response = self.client.post('/home/add_lecture/'+Subject.objects.first().subjectID+'/',
+			{"title": "Forelesning 1"})
+		rate_response = self.client.post(reverse('rate_lecture'),
+			{"lectureID": Lecture.objects.first().id,
+			"score": 3})
+		tag_response = self.client.post(reverse('add_tag'),
+			{"lectureID": Lecture.objects.first().id, "title": "test"})
+		rate_response2 = self.client.post(reverse('rate_tag'),
+			{"tagID": Tag.objects.first().id, "score": 3})
 
 	def test_statistics(self):
-		pass
-
+		stat_response = self.client.get('/home/statistics/'+Subject.objects.first().subjectID+'/')
+		self.assertEqual(stat_response.status_code,200)
 
 class IsAdminTest(TestCase):
 	def setUp(self):

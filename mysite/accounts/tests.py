@@ -171,7 +171,7 @@ class RegisterTest(TestCase):
 
         from django.contrib.auth import get_user_model
         user_model = get_user_model()
-        user = user_model.objects.get(username="foofoo123123")
+        user = user_model.objects.first(username="foofoo123123")
         user.is_active = True
         self.client.post(reverse('login'),
             {"loginusername": "foofoo123123", "loginpassword": "barbar123123"},
