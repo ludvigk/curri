@@ -19,12 +19,12 @@
                   <div class="panel-body" style="background-color: #F5F5F5;">
                      {% for tag in lecture.tag_set.all %}
                      <ul id="lecture" class="panel list-group accordion" style="background-color: white; height: 40px;">
-                            <span class="glyphicon glyphicon-tag" style="font-size: 15px"> {{tag.title}}</span>
-                            <button type="submit" onclick="javscript:rateTag({{ tag.id }}, 1)" class="submit-with-icon pull-right">
-                                <span class="glyphicon glyphicon-thumbs-down" style="color:gray; padding: 5px; padding-left: 20px; font-size: 25px;"></span>
+                       <span class="glyphicon glyphicon-tag" style="font-size: 15px"> {{tag.title}}</span>
+                            <button type="submit" onclick="javscript:rateTag({{ tag.id }}, -1)" class="submit-with-icon pull-right">
+                              <span class="glyphicon glyphicon-thumbs-down" style="color:{% if tag.tagrating_set.all.0.rating == -1 %}red{% else %}gray{% endif %}; padding: 5px; padding-left: 20px; font-size: 25px;"></span>
                             </button>
-                            <button type="submit" onclick="javascript:rateTag({{ tag.id }}, -1)" class="submit-with-icon pull-right">
-                                <span class="glyphicon glyphicon-thumbs-up" style="color:gray; padding: 5px; font-size: 25px;"></span>
+                            <button type="submit" onclick="javascript:rateTag({{ tag.id }}, 1)" class="submit-with-icon pull-right">
+                                <span class="glyphicon glyphicon-thumbs-up" style="color:{% if tag.tagrating_set.all.0.rating == 1 %}green{% else %}gray{% endif %}; padding: 5px; font-size: 25px;"></span>
                             </button>
                             <div class="progress pull-right" style="height: 5px; width: 80px;">
                               <div class="progress-bar progress-bar-success" role="progressbar" style="width:40%">
