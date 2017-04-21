@@ -18,7 +18,7 @@
               <div id="div_{{ lecture.id }}" class="collapse panel-collapse">
                   <div class="panel-body" style="background-color: #F5F5F5;">
                      {% for tag in lecture.tag_set.all %}
-                     <ul id="lecture" class="panel list-group accordion" style="background-color: MintCream; height: 40px;">
+                     <ul id="lecture" class="panel list-group accordion" style="background-color: white; height: 40px;">
                             <span class="glyphicon glyphicon-tag" style="font-size: 15px"> {{tag.title}}</span>
                             <button type="submit" onclick="javscript:rateTag({{ tag.id }}, 1)" class="submit-with-icon pull-right">
                                 <span class="glyphicon glyphicon-thumbs-down" style="color:gray; padding: 5px; padding-left: 20px; font-size: 25px;"></span>
