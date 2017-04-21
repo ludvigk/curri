@@ -103,8 +103,10 @@ def rate_tag(request):
     tag = Tag.objects.get(id=int(tagID))
     user = request.user
     profile = Profile.objects.get(user=user)
-    rating = TagRating.objects.create(user=profile, rating=int(score), tag=tag)
-    return HttpResponse('True')
+    rating, created = TagRating.objects.get_or_create(user=profile, tag=tag)
+    rating.rating = int(score)
+    rating.save()
+    return HttpResponse(rating.rating)
 
 
 @login_required(login_url='/accounts/login/')
