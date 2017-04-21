@@ -103,12 +103,8 @@ def rate_tag(request):
     tag = Tag.objects.get(id=int(tagID))
     user = request.user
     profile = Profile.objects.get(user=user)
-    try:
-        rating = lecture.rating.objects.filter(user=user)
-        return ('False')
-    except Exception as e:
-        rating = TagRating.objects.create(user=profile, rating=int(score), tag=tag)
-        return HttpResponse('True')
+    rating = TagRating.objects.create(user=profile, rating=int(score), tag=tag)
+    return HttpResponse('True')
 
 
 @login_required(login_url='/accounts/login/')
@@ -116,8 +112,10 @@ def add_tag(request):
     lectureID = int(request.POST.get('lectureID', ''))
     lecture = Lecture.objects.get(id=lectureID)
     title = request.POST.get('title','').lower()
+    if not title or Tag.objects.filter(lecture=lecture, title=title):
+        return HttpResponse('False')
     tag = Tag.objects.get_or_create(creator=request.user, lecture=lecture, title=title)
-    return HttpResponse('')
+    return HttpResponse('True')
 
 
 @login_required(login_url='/accounts/login/')

@@ -9,7 +9,7 @@
       
       {% for lecture in subject.lecture_set.all %}
           <ul id="lecture" class="panel list-group col-md-7 col-md-offset-3">
-              <a href=# class="list-group-item list-group-item-action clearfix" data-toggle="collapse" data-target="#div_{{ lecture.id }}" data-parent="#lecture">
+              <a href="javascript:void(0);" class="list-group-item list-group-item-action clearfix" data-toggle="collapse" data-target="#div_{{ lecture.id }}" data-parent="#lecture">
                 <span class="pull-left text-right">{{ lecture.title }} ({{lecture.date}})</span>
                   <span class="pull-right">
                     <div id={{ lecture.id }} class="starrr" data-rating={{ lecture.rating_set.all.0.rating }}></div>
@@ -17,24 +17,23 @@
               </a>
               <div id="div_{{ lecture.id }}" class="collapse panel-collapse">
                   <div class="panel-body" style="background-color: #F5F5F5;">
-                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                      {% for tag in lecture.tag_set.all %}
-                        <ul id="lecture" class="panel list-group" style="background-color: white; height: 40px;">
+                     <ul id="lecture" class="panel list-group accordion" style="background-color: MintCream; height: 40px;">
                             <span class="glyphicon glyphicon-tag" style="font-size: 15px"> {{tag.title}}</span>
-                            <button type="submit" class="submit-with-icon pull-right">
+                            <button type="submit" onclick="javscript:rateTag({{ tag.id }}, 1)" class="submit-with-icon pull-right">
                                 <span class="glyphicon glyphicon-thumbs-down" style="color:gray; padding: 5px; padding-left: 20px; font-size: 25px;"></span>
                             </button>
-                            <button type="submit" class="submit-with-icon pull-right">
+                            <button type="submit" onclick="javascript:rateTag({{ tag.id }}, -1)" class="submit-with-icon pull-right">
                                 <span class="glyphicon glyphicon-thumbs-up" style="color:gray; padding: 5px; font-size: 25px;"></span>
                             </button>
                             
                         </ul>    
                      {% endfor %}
-                     <form action={% url 'add_tag' %} method="post">
+                     <form action="JavaScript:addTag({{ lecture.id }})" method="post">
                         {% csrf_token %}
                         
-                        <input id="lectureID" name="lectureID" type="hidden" value="{{lecture.id}}">
-                        <input id="title" type="text" name="title" placeholder="Add tag...">
+                        <input id="lectureID {{ lecture.id }}" name="lectureID" type="hidden" value="{{lecture.id}}">
+                        <input id="title {{ lecture.id }}" type="text" name="title" placeholder="Add tag...">
                         <button type="submit" class="submit-with-icon">
                           <span class="glyphicon glyphicon-tag" style="color:green"></span>
                         </button>
@@ -66,4 +65,7 @@
 {% load staticfiles %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
 <script src="{% static 'home/js/star_rating.js' %}"></script>
+<script src="{% static 'home/js/add_tag.js' %}"></script>
+<script src="{% static 'home/js/accordion.js' %}"></script>
+<script src="{% static 'home/js/rate_tag.js' %}"></script>
 {% endblock %}
