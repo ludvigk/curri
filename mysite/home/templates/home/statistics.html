@@ -1,10 +1,65 @@
 {% extends 'home/base.html' %}
 
 {% block content %}
+  <style media="screen" type="text/css">
+
+    .chart{
+      width: 100%; 
+      min-height: 450px;
+    }
+
+  </style>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
     google.load("visualization", "1", {packages:["corechart"]});
 </script>
 
-{{ chart.as_html }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+  google.setOnLoadCallback(drawChart{{ chart.get_html_id }});
+  function drawChart{{ chart.get_html_id }}() {
+    var data = google.visualization.arrayToDataTable({{ chart.get_data_json|safe }});
+    {% if chart.get_options_json %}
+      var options = {{ chart.get_options_json|safe }}
+    {% else %}
+      var options = {};
+    {% endif %}
+    {% block create_chart %}
+    var chart = new google.visualization.ColumnChart(document.getElementById('{{ chart.get_html_id }}'));
+    {% endblock %}
+    custom_line_chart = chart;
+    custom_line_chart.draw(data, options);
+  }
+$(window).resize(function(){
+  drawChart{{ chart.get_html_id }}();
+});
+</script>
+<div id="{{ chart.get_html_id }}" class="col-md-6 col-offset-md-2 chart"></div>
+
+<div class="container">
+  <h3>
+    <center>{{suggested|length}} most difficult lectures</center>
+  </h3>
+  {% for lecture in suggested %}
+          <ul class="list-group col-md-7 col-md-offset-3">
+              <a class="list-group-item list-group-item-action clearfix">
+                <span class="pull-left text-right">{{ lecture.title }} ({{ lecture.date }})</span>
+                <span class="pull-right">Average rating: {{ lecture.rating_avg }}</span>
+               </a>
+          </ul>
+  {% endfor %}
+</div>
+  <div class="çontainer">
+  <h3>
+    <center>{{tags|length}} most difficult topics</center>
+  </h3>
+  {% for r in tags %}
+          <ul class="list-group col-md-7 col-md-offset-3">
+              <a class="list-group-item list-group-item-action clearfix">
+                <span class="pull-left text-right">{{ r.title }} in {{ r.lecture.title }}</span>
+                <span class="pull-right">Total rating: {{ r.rating_sum }}</span>
+               </a>
+          </ul>
+  {% endfor %}
+</div>
 {% endblock %}

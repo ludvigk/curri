@@ -4,3 +4,11 @@
 
 
 SurveyBot for feedback and suggestions for exercises in lectures. Project for TDT4140.
+
+## Installation Guide
+
+1. Install the required software.
+
+### Requirments
+* Python 3
+* RabbitMQ
