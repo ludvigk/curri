@@ -29,6 +29,13 @@
                                 <span class="glyphicon glyphicon-thumbs-up" style="color:{% if tag.tagrating_set.all.0.rating == 1 %}green{% else %}gray{% endif %}; padding: 5px; font-size: 25px;"></span>
                             </button>
                         </ul>
+                            <div class="progress pull-right" style="height: 5px; width: 80px;">
+                              <div class="progress-bar progress-bar-success" role="progressbar" style="width:40%">
+                              </div>
+                              <div class="progress-bar progress-bar-danger" role="progressbar" style="width:60%">
+                              </div>
+                          </div>
+                        </ul>    
                      {% endfor %}
                      <form action="JavaScript:addTag({{ lecture.id }})" method="post">
                         {% csrf_token %}
