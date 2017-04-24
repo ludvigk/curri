@@ -200,7 +200,8 @@ def statistics(request, subjectID):
     tagr = ExpressionWrapper(Sum(F('tagrating__rating')), output_field=fields.FloatField())
     topics = Tag.objects.filter(lecture__subject=subject).annotate(
         rating_sum=tagr).order_by('rating_sum')[:5]
-    return render(request, 'home/statistics.html', {'chart': chart, 'suggested': suggested, 'tags': topics})
+    context = {'chart': chart, 'suggested': suggested, 'tags': topics}
+    return render(request, 'home/statistics.html', context)
 
 
 def is_admin(request, subjectID):

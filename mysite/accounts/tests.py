@@ -218,7 +218,8 @@ class ChangePasswordTest(TestCase):
 
         # Login and change password
         login_response = self.client.post(reverse('login'),
-                                          {"loginusername": "testuser", "loginpassword": "bar"},
+                                          {"loginusername": "testuser",
+                                              "loginpassword": "bar"},
                                           follow=True)
         change_response = self.client.post(reverse('password_change'),
                                            {"old_password": "bar",
