@@ -13,6 +13,7 @@ SurveyBot for feedback and suggestions for exercises in lectures. Project for TD
 
 1. Download the source code.
 2. Install the required software.
+
     **With macOS/Homebrew**
     ```zsh
         $ brew install python3
