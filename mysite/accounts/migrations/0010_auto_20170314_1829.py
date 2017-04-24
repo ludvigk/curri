@@ -18,9 +18,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Rating',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('rating', models.IntegerField(default=0)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='accounts.Profile')),
+                ('user', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='accounts.Profile')),
             ],
         ),
         migrations.AlterField(
@@ -31,12 +33,14 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='subject',
             name='subjectID',
-            field=models.CharField(default=accounts.models.random_id, max_length=6, null=True, unique=True),
+            field=models.CharField(default=accounts.models.random_id,
+                                   max_length=6, null=True, unique=True),
         ),
         migrations.AddField(
             model_name='lecture',
             name='rating',
-            field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, to='accounts.Rating'),
+            field=models.ForeignKey(
+                default=0, on_delete=django.db.models.deletion.CASCADE, to='accounts.Rating'),
             preserve_default=False,
         ),
     ]

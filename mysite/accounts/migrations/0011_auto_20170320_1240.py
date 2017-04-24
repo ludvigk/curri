@@ -20,7 +20,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='rating',
             name='lecture',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='accounts.Lecture'),
+            field=models.ForeignKey(
+                default=1, on_delete=django.db.models.deletion.CASCADE, to='accounts.Lecture'),
             preserve_default=False,
         ),
     ]

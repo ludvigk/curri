@@ -28,6 +28,7 @@ def subject(request, subjectID):
     subject = Subject.objects.filter(
         profile__user=request.user).prefetch_related(pf).filter(
             subjectID=subjectID).prefetch_related("lecture_set", pf2).first()
+
     if not subject:
         return HttpResponse('No such subject')
     return render(request, 'home/subject.html', {'subject': subject})
@@ -114,7 +115,7 @@ def rate_tag(request):
 def add_tag(request):
     lectureID = int(request.POST.get('lectureID', ''))
     lecture = Lecture.objects.get(id=lectureID)
-    title = request.POST.get('title','').lower()
+    title = request.POST.get('title', '').lower()
     if not title or Tag.objects.filter(lecture=lecture, title=title):
         return HttpResponse('False')
     tag = Tag.objects.get_or_create(creator=request.user, lecture=lecture, title=title)
@@ -140,7 +141,7 @@ def add_lecture(request, subjectID):
             datelist = date.split('/')
             date = '{}-{}-{}'.format(datelist[2], datelist[0], datelist[1])
         subject = Subject.objects.filter(subjectID=subjectID).first()
-        if Grepeated:
+        if repeated:
             enddate = request.POST.get('enddate', '')
             if enddate:
                 enddatelist = enddate.split('/')
@@ -186,7 +187,8 @@ def statistics(request, subjectID):
     lectures = Lecture.objects.filter(subject=subject)
     user = request.user
     profile = Profile.objects.get(user=user)
-    rating = Rating.objects.filter(lecture__subject=subject).values('lecture_id').annotate(average=Avg('rating'))
+    rating = Rating.objects.filter(lecture__subject=subject).values(
+        'lecture_id').annotate(average=Avg('rating'))
     data = [list(rating[0].keys())]
     for el in rating:
         data_set = [Lecture.objects.get(id=el['lecture_id']).title, el['average']]
@@ -196,7 +198,8 @@ def statistics(request, subjectID):
     rating = ExpressionWrapper(Avg(F('rating__rating')), output_field=fields.FloatField())
     suggested = lectures.annotate(rating_avg=rating).order_by('rating_avg')[:5]
     tagr = ExpressionWrapper(Sum(F('tagrating__rating')), output_field=fields.FloatField())
-    topics = Tag.objects.filter(lecture = lectures).annotate(rating_sum=tagr).order_by('rating_sum')[:5]
+    topics = Tag.objects.filter(lecture__subject=subject).annotate(
+        rating_sum=tagr).order_by('rating_sum')[:5]
     return render(request, 'home/statistics.html', {'chart': chart, 'suggested': suggested, 'tags': topics})
 
 

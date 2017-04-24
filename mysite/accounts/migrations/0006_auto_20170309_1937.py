@@ -16,6 +16,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='subject',
             name='subjectID',
-            field=models.CharField(default=accounts.models.random_id, max_length=6, null=True, unique=True),
+            field=models.CharField(default=accounts.models.random_id,
+                                   max_length=6, null=True, unique=True),
         ),
     ]

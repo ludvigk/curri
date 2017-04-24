@@ -20,19 +20,23 @@
               <div id="div_{{ lecture.id }}" class="collapse panel-collapse">
                   <div class="panel-body" style="background-color: #F5F5F5;">
                      {% for tag in lecture.tag_set.all %}
+                      {% load query %}
+                      {% query tag.tagrating_set user=user.profile as usertag %}
                      <ul id="lecture" class="panel list-group accordion" style="background-color: white; height: 60px;">
                        <span class="glyphicon glyphicon-tag" style="font-size: 15px"> {{tag.title}}</span>
                            <div class="pull-right">
                                 <button type="submit" onclick="javascript:rateTag({{ tag.id }}, 1)" class="submit-with-icon pull-up">
-                                    <span class="glyphicon glyphicon-thumbs-up" style="color:{% if tag.tagrating_set.all.0.rating == 1 %}green{% else %}gray{% endif %}; padding: 5px; font-size: 25px;"></span>
+                                    <span class="glyphicon glyphicon-thumbs-up" style="color:{% if usertag.all.0.rating == 1 %}green{% else %}gray{% endif %}; padding: 5px; font-size: 25px;"></span>
                                 </button>
                                 <button type="submit" onclick="javscript:rateTag({{ tag.id }}, -1)" class="submit-with-icon pull-up">
-                                  <span class="glyphicon glyphicon-thumbs-down" style="color:{% if tag.tagrating_set.all.0.rating == -1 %}red{% else %}gray{% endif %}; padding: 5px; padding-left: 20px; font-size: 25px;"></span>
+                                  <span class="glyphicon glyphicon-thumbs-down" style="color:{% if usertag.all.0.rating == -1 %}red{% else %}gray{% endif %}; padding: 5px; padding-left: 20px; font-size: 25px;"></span>
                                 </button>
+                                {% query tag.tagrating_set rating=1 as tagratingup %}
+                                {% query tag.tagrating_set rating=-1 as tagratingdown %}
                                 <div class="progress pull-down" style="height: 5px; width: 85px;">
-                                  <div class="progress-bar progress-bar-success" role="progressbar" style="width:40%">
+                                  <div class="progress-bar progress-bar-success" role="progressbar" style="width:{% widthratio tagratingup.count tag.tagrating_set.count 100 %}%">
                                   </div>
-                                  <div class="progress-bar progress-bar-danger" role="progressbar" style="width:60%">
+                                  <div class="progress-bar progress-bar-danger" role="progressbar" style="width:{% widthratio tagratingdown.count tag.tagrating_set.count 100 %}%">
                                   </div>
                                 </div>
                            </div>

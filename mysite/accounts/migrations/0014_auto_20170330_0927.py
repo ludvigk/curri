@@ -17,7 +17,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TagRating',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('rating', models.IntegerField(default=0)),
             ],
         ),
@@ -28,21 +29,25 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='tag',
             name='lecture',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='accounts.Lecture'),
+            field=models.ForeignKey(
+                null=True, on_delete=django.db.models.deletion.CASCADE, to='accounts.Lecture'),
         ),
         migrations.AlterField(
             model_name='tag',
             name='creator',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='tagrating',
             name='tag',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='accounts.Tag'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to='accounts.Tag'),
         ),
         migrations.AddField(
             model_name='tagrating',
             name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='accounts.Profile'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to='accounts.Profile'),
         ),
     ]

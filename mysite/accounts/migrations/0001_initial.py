@@ -20,7 +20,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Lecture',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=100)),
                 ('date', models.DateTimeField()),
             ],
@@ -28,7 +29,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Subject',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=200)),
                 ('subjectCode', models.CharField(max_length=10)),
                 ('created_date', models.DateTimeField(default=django.utils.timezone.now)),
@@ -40,35 +42,44 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='SubjectAdmin',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('admin', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('subject', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='accounts.Subject')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
+                ('admin', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('subject', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='accounts.Subject')),
             ],
         ),
         migrations.CreateModel(
             name='SubjectTags',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('subject', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='accounts.Subject')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
+                ('subject', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='accounts.Subject')),
             ],
         ),
         migrations.CreateModel(
             name='Tag',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=20)),
-                ('creator', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('creator', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.AddField(
             model_name='subjecttags',
             name='tag',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='accounts.Tag'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to='accounts.Tag'),
         ),
         migrations.AddField(
             model_name='subject',
             name='admins',
-            field=models.ManyToManyField(through='accounts.SubjectAdmin', to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(
+                through='accounts.SubjectAdmin', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='subject',
@@ -78,6 +89,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='lecture',
             name='subject',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='accounts.Subject'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to='accounts.Subject'),
         ),
     ]
