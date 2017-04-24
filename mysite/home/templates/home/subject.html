@@ -4,7 +4,9 @@
       
       {% if subject.lecture_set.all %}
       <h1 class="list-group col-md-7 col-md-offset-3" style = "font-family: Bariol;">Your 
-      Lectures in {{ subject.title }} ID: {{ subject.subjectID }}</h1>
+      Lectures in {{ subject.title }}
+      <br/>
+      ID: {{ subject.subjectID }}</h1>
       {% endif %}
       
       {% for lecture in subject.lecture_set.all %}
@@ -26,12 +28,10 @@
                             <button type="submit" onclick="javascript:rateTag({{ tag.id }}, 1)" class="submit-with-icon pull-right">
                                 <span class="glyphicon glyphicon-thumbs-up" style="color:{% if tag.tagrating_set.all.0.rating == 1 %}green{% else %}gray{% endif %}; padding: 5px; font-size: 25px;"></span>
                             </button>
-                            
-                        </ul>    
+                        </ul>
                      {% endfor %}
                      <form action="JavaScript:addTag({{ lecture.id }})" method="post">
                         {% csrf_token %}
-                        
                         <input id="lectureID {{ lecture.id }}" name="lectureID" type="hidden" value="{{lecture.id}}">
                         <input id="title {{ lecture.id }}" type="text" name="title" placeholder="Add tag...">
                         <button type="submit" class="submit-with-icon">
@@ -47,6 +47,10 @@
           {% block subjects %}
           {% endblock %}
       {% endfor %}
+     
+      <div class="col-md-4 col-md-offset-4 text-center" style="padding-top:20px"> 
+          <a class="btn btn btn-primary btn-sm col-sx-6 col-offset-2" href={% url 'statistics' subjectID=subject.subjectID %} role="button"> Statistics </a>
+      </div>
     
       {% ifequal subject.su.0.permissions "admin" %}
       <div class="col-md-4 col-md-offset-4 text-center" style="padding-top:20px"> 
@@ -54,13 +58,13 @@
       </div>
 
      <div class="col-md-4 col-md-offset-4 text-center" style="padding-top:20px"> 
-          <a class="btn btn btn-danger btn-sm col-sx-6 col-offset-2" href={% url 'delete_subject' subjectID=subject.subjectID %} role="button">+ Delete subject</a>
+          <a class="btn btn btn-danger btn-sm col-sx-6 col-offset-2" href={% url 'delete_subject' subjectID=subject.subjectID %} role="button">- Delete subject</a>
       </div>
       {% endifequal %}
-    
+
       {% include "home/addLecture.html" %}
-    
-    
+
+
 </div>
 {% load staticfiles %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>

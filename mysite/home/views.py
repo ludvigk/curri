@@ -17,6 +17,7 @@ def home(request):
 
 @login_required(login_url='/accounts/login/')
 def subject(request, subjectID):
+    from django.db.models import Avg, F, ExpressionWrapper
     if not subjectID:
         return HttpResponse('')
     profile = Profile.objects.get(user=request.user)
@@ -139,7 +140,7 @@ def add_lecture(request, subjectID):
             datelist = date.split('/')
             date = '{}-{}-{}'.format(datelist[2], datelist[0], datelist[1])
         subject = Subject.objects.filter(subjectID=subjectID).first()
-        if repeated:
+        if Grepeated:
             enddate = request.POST.get('enddate', '')
             if enddate:
                 enddatelist = enddate.split('/')
@@ -180,19 +181,23 @@ def remove_lecture(request, subjectID):
 def statistics(request, subjectID):
     from graphos.sources.model import SimpleDataSource
     from graphos.renderers.gchart import ColumnChart
-    from django.db.models import Avg, Count
+    from django.db.models import Avg, Count, Sum, F, ExpressionWrapper, fields
     subject = Subject.objects.get(subjectID=subjectID)
-    lectures = Lecture.objects.filter(subject=subject).annotate()
+    lectures = Lecture.objects.filter(subject=subject)
     user = request.user
     profile = Profile.objects.get(user=user)
-    rating = Rating.objects.filter(lecture__subject=subject).values('lecture_id').annotate(Avg('rating'))
+    rating = Rating.objects.filter(lecture__subject=subject).values('lecture_id').annotate(average=Avg('rating'))
     data = [list(rating[0].keys())]
     for el in rating:
-        data_set = [Lecture.objects.get(id=el['lecture_id']).title, el['rating__avg']]
+        data_set = [Lecture.objects.get(id=el['lecture_id']).title, el['average']]
         data += [data_set]
     data_source = SimpleDataSource(data=data)
-    chart = ColumnChart(data_source)
-    return render(request, 'home/statistics.html', {'chart': chart})
+    chart = ColumnChart(data_source, options={'title': 'Average rating for lectures'})
+    rating = ExpressionWrapper(Avg(F('rating__rating')), output_field=fields.FloatField())
+    suggested = lectures.annotate(rating_avg=rating).order_by('rating_avg')[:5]
+    tagr = ExpressionWrapper(Sum(F('tagrating__rating')), output_field=fields.FloatField())
+    topics = Tag.objects.filter(lecture = lectures).annotate(rating_sum=tagr).order_by('rating_sum')[:5]
+    return render(request, 'home/statistics.html', {'chart': chart, 'suggested': suggested, 'tags': topics})
 
 
 def is_admin(request, subjectID):
