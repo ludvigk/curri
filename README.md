@@ -19,6 +19,10 @@ SurveyBot for feedback and suggestions for exercises in lectures. Project for TD
         $ brew install python3
         $ brew install rabbitmq
     ```
+    Remember to put the RabbitMQ PATH in .bash_profile or similar
+    ```
+       PATH=$PATH:/usr/local/sbin
+    ```
     **With apt-get**
     ```zsh
         $ apt-get install python3
