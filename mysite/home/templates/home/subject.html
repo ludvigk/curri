@@ -14,7 +14,13 @@
               <a href="javascript:void(0);" class="list-group-item list-group-item-action clearfix" data-toggle="collapse" data-target="#div_{{ lecture.id }}" data-parent="#lecture">
                 <span class="pull-left text-right">{{ lecture.title }} ({{lecture.date}})</span>
                   <span class="pull-right">
-                    <div id={{ lecture.id }} class="starrr" data-rating={{ lecture.rating_set.all.0.rating }}></div>
+                    {% ifequal subject.su.0.permissions "admin" %}
+                    <input type="hidden" value="{{ lecture.id }}" id="lectureID">
+                    <input type="hidden" value="{{ subject.subjectID }}" id="subjectID">
+                    <button type="submit" class="btn btn btn-danger btn-sm pull-right" onclick="javascript:removeLecture()">- Delete</button>
+                    {% else %}
+                      <div id={{ lecture.id }} class="starrr" data-rating={{ lecture.rating_set.all.0.rating }}></div>
+                    {% endifequal %}
                   </span>
               </a>
               <div id="div_{{ lecture.id }}" class="collapse panel-collapse">
@@ -84,4 +90,5 @@
 <script src="{% static 'home/js/add_tag.js' %}"></script>
 <script src="{% static 'home/js/accordion.js' %}"></script>
 <script src="{% static 'home/js/rate_tag.js' %}"></script>
+<script src="{% static 'home/js/remove_lecture.js' %}"></script>
 {% endblock %}

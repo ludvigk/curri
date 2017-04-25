@@ -123,13 +123,6 @@ def add_tag(request):
 
 
 @login_required(login_url='/accounts/login/')
-def remove_tag(request):
-    if is_admin(request, subjectID):
-        pass
-    return HttpResponse('')
-
-
-@login_required(login_url='/accounts/login/')
 def add_lecture(request, subjectID):
     if is_admin(request, subjectID):
         title = request.POST.get('title', '')
@@ -165,17 +158,13 @@ def add_lecture(request, subjectID):
 
 
 @login_required(login_url='/accounts/login/')
-def edit_lecture(request):
-    return HttpResponse('')
-
-
-@login_required(login_url='/accounts/login/')
 def remove_lecture(request, subjectID):
     if is_admin(request, subjectID):
         lectureID = request.POST.get('lectureID', '')
         lecture = Lecture.objects.get(id=lectureID)
         lecture.delete()
-    return HttpResponse('')
+        return HttpResponse(True)
+    return HttpResponse(False)
 
 
 @login_required(login_url='/accounts/login/')
@@ -189,6 +178,8 @@ def statistics(request, subjectID):
     profile = Profile.objects.get(user=user)
     rating = Rating.objects.filter(lecture__subject=subject).values(
         'lecture_id').annotate(average=Avg('rating'))
+    if not rating:
+        return render(request, 'home/no_statistics.html')
     data = [list(rating[0].keys())]
     for el in rating:
         data_set = [Lecture.objects.get(id=el['lecture_id']).title, el['average']]

@@ -48,6 +48,10 @@ def register(request):
     return HttpResponse(True)
 
 
+def register_successful(request):
+    return render(request, 'accounts/success.html')
+
+
 def send_registration_confirmation(user):
     from django.utils.http import urlsafe_base64_encode
     from django.utils.encoding import force_bytes

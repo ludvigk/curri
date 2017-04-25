@@ -63,7 +63,7 @@ function register() {
 
     		if(data == "True"){
       		//Redirect til register success
-      		window.location.replace("/");
+      		window.location.replace("/accounts/register_successful/");
 
     		}
    		});

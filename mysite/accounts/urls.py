@@ -38,7 +38,8 @@ urlpatterns = [
         kwargs={'template_name': 'home/change_password.html',
                 'post_change_redirect': 'login'},
         name='password_change'),
-    url(r'^password_change_done/$', views.login, name='password_change_done')
+    url(r'^password_change_done/$', views.login, name='password_change_done'),
+    url(r'^register_successful/$', views.register_successful, name='register_successful')
 ]
 
 urlpatterns += staticfiles_urlpatterns()
